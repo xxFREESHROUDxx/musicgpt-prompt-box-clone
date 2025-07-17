@@ -1,5 +1,6 @@
 import { SongMode } from "@/hooks/useSongGeneration";
 import { Textarea } from "../common/textarea";
+import { twclsx } from "@/utils/twclsx";
 
 interface DefaultSongFormProps {
   prompt: string;
@@ -17,30 +18,31 @@ export const DefaultSongForm: React.FC<DefaultSongFormProps> = ({
   onLyricsChange,
 }) => {
   return (
-    <>
-      <div className="h-full">
+    <div className="flex h-full flex-col overflow-hidden">
+      <div className="min-h-0 flex-1">
         <Textarea
           name="description"
           id="description"
           placeholder="Describe your song"
           value={prompt}
           onChange={onPromptChange}
+          className="h-full"
         />
       </div>
 
       {/* Conditional Lyrics Textarea */}
       {activeMode === "lyrics" && (
-        <div className="px-5 pb-3">
+        <div className="border-t border-neutral-hover px-5 py-3">
           <Textarea
             name="lyrics"
             id="lyrics"
-            placeholder="Enter your lyrics (optional)"
+            placeholder="Enter your lyrics here"
             value={lyrics}
             onChange={onLyricsChange}
-            className="border-neutral-hover block w-full border-t px-0 py-2 text-body-base"
+            className="min-h-14 pl-0 pt-0"
           />
         </div>
       )}
-    </>
+    </div>
   );
 };

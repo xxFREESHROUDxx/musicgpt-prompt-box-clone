@@ -3,6 +3,8 @@ import { clsx } from "clsx";
 import { inter, roboto } from "@/configs/font-config";
 import "@/assets/globals.css";
 import { ReactNode } from "react";
+import { GradientBackground } from "@/components/common/gradient-background";
+
 export const metadata: Metadata = {
   title: "MusicGPT",
   description: "Create music with AI",
@@ -22,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={clsx(roboto.className, roboto.variable, inter.variable)}>
+        <GradientBackground />
         {children}
       </body>
     </html>

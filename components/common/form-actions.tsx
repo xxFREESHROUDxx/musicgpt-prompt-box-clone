@@ -41,7 +41,7 @@ export const FormActions: React.FC<FormActionsProps> = ({
             <Button
               variant={ButtonVariants.PRIMARY}
               className={twclsx("transition-all duration-200", {
-                "border-neutral-light bg-neutral-light/20 hover:border-neutral-light hover:bg-neutral-light/20":
+                "border-neutral-light bg-neutral-light/20 hover:border-neutral-light hover:!bg-neutral-light/20":
                   activeMode === "instrumental",
               })}
               onClick={() => onModeToggle("instrumental")}
@@ -51,18 +51,18 @@ export const FormActions: React.FC<FormActionsProps> = ({
                 width={16}
                 className="text-neutral-light"
               />
-              Instrumental
+              <span className="hidden sm:inline">Instrumental</span>
             </Button>
             <Button
               variant={ButtonVariants.PRIMARY}
               className={twclsx("transition-all duration-200", {
-                "border-neutral-light bg-neutral-light/20 hover:border-neutral-light hover:bg-neutral-light/20":
+                "border-neutral-light bg-neutral-light/20 hover:border-neutral-light hover:!bg-neutral-light/20":
                   activeMode === "lyrics",
               })}
               onClick={() => onModeToggle("lyrics")}
             >
               <Plus height={16} width={16} className="text-neutral-light" />
-              Lyrics
+              <span className="hidden sm:inline">Lyrics</span>
             </Button>
           </>
         )}

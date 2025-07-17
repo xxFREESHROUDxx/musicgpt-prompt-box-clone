@@ -1,4 +1,5 @@
 import React from "react";
+import { twclsx } from "@/utils/twclsx";
 
 interface TextareaProps {
   name?: string;
@@ -24,7 +25,10 @@ export const Textarea: React.FC<TextareaProps> = ({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className={`h-full w-full resize-none bg-transparent px-5 py-5 text-base text-pure-white outline-none scrollbar-hide placeholder:text-neutral-sub-text ${className}`}
+      className={twclsx(
+        "block min-h-[120px] w-full resize-none bg-transparent p-5 text-left text-base leading-relaxed text-pure-white outline-none scrollbar-hide placeholder:text-neutral-sub-text",
+        className,
+      )}
     />
   );
 };

@@ -12,12 +12,14 @@ const SearchBox: FC = () => {
     prompt,
     lyrics,
     selectedTool,
+    selectedVoice,
     isLoading,
     isButtonEnabled,
     handleModeToggle,
     handlePromptChange,
     handleLyricsChange,
     handleToolChange,
+    handleVoiceSelect,
     generateSong,
   } = useSongGeneration();
 
@@ -26,38 +28,65 @@ const SearchBox: FC = () => {
     generateSong();
   };
 
+  const isTextToSpeech = selectedTool === "Text to Speech";
+
+  // Get dynamic height class based on mode
+  const getFormHeightClass = () => {
+    if (isTextToSpeech) return "h-[290px]";
+    if (activeMode === "lyrics") return "h-[240px]";
+    return "h-[160px]";
+  };
+
   return (
-    <div className="relative w-full rounded-[27px] bg-neutral-base transition-all duration-200">
+    <div className="relative w-full rounded-[27px] bg-neutral-base/80 backdrop-blur-sm transition-all duration-500 ease-in-out">
       <form
         onSubmit={handleFormSubmit}
-        className="h-full overflow-hidden pb-14"
-        style={{ height: selectedTool === "Text to Speech" ? "290px" : "auto" }}
+        className={`w-full overflow-hidden pb-14 transition-all duration-500 ease-in-out ${getFormHeightClass()}`}
       >
-        {selectedTool === "Text to Speech" ? (
-          <TextToSpeechForm
-            prompt={prompt}
-            onPromptChange={handlePromptChange}
-          />
-        ) : (
-          <DefaultSongForm
-            prompt={prompt}
-            lyrics={lyrics}
-            activeMode={activeMode}
-            onPromptChange={handlePromptChange}
-            onLyricsChange={handleLyricsChange}
-          />
-        )}
+        <div className="relative h-full transition-all duration-500 ease-in-out">
+          <div
+            className={`absolute inset-0 transition-all duration-500 ease-in-out ${
+              isTextToSpeech
+                ? "translate-x-0 opacity-100"
+                : "pointer-events-none -translate-x-full opacity-0"
+            }`}
+          >
+            <TextToSpeechForm
+              prompt={prompt}
+              onPromptChange={handlePromptChange}
+              selectedVoice={selectedVoice}
+              onVoiceSelect={handleVoiceSelect}
+            />
+          </div>
+          <div
+            className={`absolute inset-0 transition-all duration-500 ease-in-out ${
+              !isTextToSpeech
+                ? "translate-x-0 opacity-100"
+                : "pointer-events-none translate-x-full opacity-0"
+            }`}
+          >
+            <DefaultSongForm
+              prompt={prompt}
+              lyrics={lyrics}
+              activeMode={activeMode}
+              onPromptChange={handlePromptChange}
+              onLyricsChange={handleLyricsChange}
+            />
+          </div>
+        </div>
 
-        <FormActions
-          activeMode={activeMode}
-          selectedTool={selectedTool}
-          isButtonEnabled={isButtonEnabled}
-          isLoading={isLoading}
-          showModeButtons={selectedTool !== "Text to Speech"}
-          onModeToggle={handleModeToggle}
-          onToolChange={handleToolChange}
-          onSubmit={generateSong}
-        />
+        <div className="transition-all duration-300 ease-in-out">
+          <FormActions
+            activeMode={activeMode}
+            selectedTool={selectedTool}
+            isButtonEnabled={isButtonEnabled}
+            isLoading={isLoading}
+            showModeButtons={!isTextToSpeech}
+            onModeToggle={handleModeToggle}
+            onToolChange={handleToolChange}
+            onSubmit={generateSong}
+          />
+        </div>
       </form>
     </div>
   );
