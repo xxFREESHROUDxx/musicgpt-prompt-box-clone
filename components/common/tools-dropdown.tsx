@@ -14,6 +14,11 @@ interface Tool {
   heading: string;
 }
 
+interface ToolsDropdownProps {
+  onToolChange?: (tool: "Create anything" | "Text to Speech") => void;
+  selectedTool?: string;
+}
+
 const tools: Tool[] = [
   {
     id: "create-anything",
@@ -32,12 +37,19 @@ const tools: Tool[] = [
   },
 ];
 
-export const ToolsDropdown: FC = () => {
-  const [activeTool, setActiveTool] = useState<Tool>(tools[0]);
+export const ToolsDropdown = ({
+  onToolChange,
+  selectedTool = "Create anything",
+}: ToolsDropdownProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Find the active tool based on selectedTool prop
+  const activeTool =
+    tools.find((tool) => tool.heading === selectedTool) || tools[0];
+
   const handleToolSelect = (tool: Tool) => {
-    setActiveTool(tool);
+    onToolChange?.(tool.heading as "Create anything" | "Text to Speech");
+    // Close dropdown by clicking outside
     setTimeout(() => {
       document.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
     }, 0);
@@ -49,7 +61,7 @@ export const ToolsDropdown: FC = () => {
         align="right"
         label={
           <span className="flex items-center gap-1">
-            {activeTool.label}
+            {activeTool.heading}
             <ChevronDown
               height={16}
               width={16}

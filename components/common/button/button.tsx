@@ -49,7 +49,7 @@ const Button: FunctionComponent<ButtonProps> = ({
           "border-none": borderLess,
         },
         {
-          "pointer-events-none bg-neutral-base": loading || disabled,
+          "pointer-events-none !bg-neutral-500/50": loading || disabled,
           "bg-scale-1": loading,
         },
         className,
