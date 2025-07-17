@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, FC } from "react";
 import { Aperture, Check, ChevronDown, Type } from "lucide-react";
 import { Dropdown } from "./dropdown";
 import Badge from "./badge";
@@ -32,7 +32,7 @@ const tools: Tool[] = [
   },
 ];
 
-export const ToolsDropdown = () => {
+export const ToolsDropdown: FC = () => {
   const [activeTool, setActiveTool] = useState<Tool>(tools[0]);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -81,15 +81,15 @@ export const ToolsDropdown = () => {
                   </span>
                 </div>
               </div>
-              <div className="flex h-5 w-5 items-center justify-center rounded-full bg-neutral-light/10 transition-all duration-200 ease-in-out">
-                {activeTool.id === tool.id && (
+              {activeTool.id === tool.id && (
+                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-neutral-light/10 transition-all duration-200 ease-in-out">
                   <Check
                     height={20}
                     width={20}
                     className="scale-100 rounded-full bg-neutral-light p-1 text-neutral-black transition-all duration-200 ease-in-out"
                   />
-                )}
-              </div>
+                </div>
+              )}
             </div>
           ))}
         </div>

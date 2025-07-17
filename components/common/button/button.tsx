@@ -31,7 +31,7 @@ const Button: FunctionComponent<ButtonProps> = ({
     <button
       type={type}
       className={twclsx(
-        "group relative flex h-9 shrink-0 grow-0 select-none items-center justify-center gap-1 rounded-full text-sm transition-all hover:cursor-pointer",
+        "group relative flex h-9 shrink-0 grow-0 select-none items-center justify-center gap-1 rounded-full text-sm transition-all duration-200 ease-in-out hover:cursor-pointer",
         {
           "px-2 py-2": size === ButtonSizes.SMALL,
           "px-2.5": size === ButtonSizes.BASE,
@@ -49,7 +49,7 @@ const Button: FunctionComponent<ButtonProps> = ({
           "border-none": borderLess,
         },
         {
-          "pointer-events-none": loading || disabled,
+          "pointer-events-none bg-neutral-base": loading || disabled,
           "bg-scale-1": loading,
         },
         className,
