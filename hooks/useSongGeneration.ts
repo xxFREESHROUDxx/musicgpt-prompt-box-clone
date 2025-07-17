@@ -101,18 +101,22 @@ export const useSongGeneration = () => {
         }
       }
 
-      // Log the request body (replace with actual API call)
-      console.log("API Request Body:", requestBody);
+      // Log the request body to frontend console
+      console.log("Frontend Request Body:", requestBody);
 
-      // Here you would make the actual API call
-      // const response = await fetch('/api/generate-song', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(requestBody)
-      // });
+      // Make the actual API call to backend
+      const response = await fetch("/api/generate-song", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      });
 
-      // const data = await response.json();
-      // Handle success response
+      if (!response.ok) {
+        throw new Error("Failed to generate song");
+      }
+
+      const data = await response.json();
+      console.log("Backend Response:", data);
 
       // Clear all inputs after successful submission
       setPrompt("");
@@ -125,7 +129,7 @@ export const useSongGeneration = () => {
       setPreviousVoice(null);
     } catch (error) {
       console.error("Error generating song:", error);
-      // Handle error
+      // Handle error - you might want to show a toast notification here
     } finally {
       setIsLoading(false);
     }
