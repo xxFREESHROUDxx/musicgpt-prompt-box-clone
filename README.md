@@ -298,9 +298,38 @@ docker run -p 3000:3000 \
 
 ### Environment Variables
 
-- `NODE_ENV`: Environment (development/production)
-- `NEXT_PUBLIC_API_URL`: API base URL
-- `NEXT_TELEMETRY_DISABLED`: Disable Next.js telemetry
+Copy `.env.example` to `.env.local` and configure the following variables:
+
+```bash
+# Application Configuration
+NODE_ENV=development
+APP_ENV=development
+DEBUG=false
+NEXT_TELEMETRY_DISABLED=1
+
+# App Configuration
+APP_NAME=MusicGPT Prompt Box
+NEXT_PUBLIC_APP_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_AUTH_API_BASE_URL=http://localhost:3000/api/auth
+
+# Assets
+NEXT_PUBLIC_ASSETS_PREFIX_URL=http://localhost:3000/assets
+
+# Logging
+LOG_LEVEL=info
+```
+
+**Required Variables:**
+
+- `NEXT_PUBLIC_API_BASE_URL`: Your API base URL
+- `NEXT_PUBLIC_APP_BASE_URL`: Your application base URL
+
+**Optional Variables:**
+
+- `APP_NAME`: Custom application name (defaults to "MusicGPT Prompt Box")
+- `DEBUG`: Enable debug mode (defaults to false)
+- `LOG_LEVEL`: Logging level (defaults to info)
 
 ## 🤝 Contributing
 

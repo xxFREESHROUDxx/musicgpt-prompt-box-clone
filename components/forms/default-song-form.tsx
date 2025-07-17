@@ -26,7 +26,7 @@ export const DefaultSongForm: React.FC<DefaultSongFormProps> = ({
           placeholder="Describe your song"
           value={prompt}
           onChange={onPromptChange}
-          className="h-full"
+          className="h-full pt-4"
         />
       </div>
 
