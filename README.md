@@ -1,8 +1,6 @@
-# MusicGPT - AI-Powered Song Creation Platform
+# MusicGPT
 
-A modern, responsive web application for creating music using AI, built with
-Next.js 14, TypeScript, and Tailwind CSS. Features include text-to-speech voice
-selection, dynamic form modes, and smooth animations.
+A search bar clone of MusicGPT.
 
 ## 🚀 Features
 
@@ -26,6 +24,7 @@ selection, dynamic form modes, and smooth animations.
 - **State Management**: Custom hooks for clean state management
 - **TypeScript**: Full type safety throughout the application
 - **Docker Support**: Complete containerization for development and production
+- **Code Quality**: ESLint, Prettier, Husky, and commitlint for code standards
 
 ## 🛠️ Tech Stack
 
@@ -35,14 +34,14 @@ selection, dynamic form modes, and smooth animations.
 - **API**: Next.js API Routes
 - **Containerization**: Docker, Docker Compose
 - **Package Manager**: Yarn
-- **Development**: ESLint, Prettier
+- **Development**: ESLint, Prettier, Husky, commitlint
 
 ## 📦 Installation & Setup
 
 ### Prerequisites
 
 - Node.js 18+
-- Yarn or npm
+- Yarn
 - Docker (optional)
 
 ### Local Development
@@ -98,34 +97,48 @@ docker-compose --profile dev up --build
 #### Individual Docker Commands
 
 ```bash
-# Build image
-docker build -t musicgpt .
+# Build production image
+docker build -t musicgpt --target runner .
 
-# Run container
+# Build development image
+docker build -t musicgpt-dev --target development .
+
+# Run production container
 docker run -p 3000:3000 musicgpt
 
-# Development with volumes
-docker build -f Dockerfile.dev -t musicgpt-dev .
-docker run -p 3000:3000 -v $(pwd):/app musicgpt-dev
+# Run development container with volumes
+docker run -p 3000:3000 -v $(pwd):/app -v /app/node_modules -v /app/.next musicgpt-dev
 ```
 
 ## 🏗️ Project Structure
 
 ```
-├── app/                          # Next.js 13+ App Router
+├── app/                          # Next.js 14+ App Router
 │   ├── api/                      # API Routes
 │   │   ├── generate-song/        # Song generation endpoint
 │   │   └── voices/              # Voice fetching endpoint
+│   ├── fonts/                   # Font files
 │   ├── layout.tsx               # Root layout
 │   └── page.tsx                 # Home page
+│
 ├── components/                   # React Components
 │   ├── common/                  # Shared components
 │   │   ├── button/             # Button components
-│   │   ├── textarea.tsx        # Reusable textarea
-│   │   ├── voice-avatar.tsx    # Voice selection avatar
-│   │   ├── gradient-background.tsx # Animated background
+│   │   │   ├── button.tsx      # Main button component
+│   │   │   └── index.ts        # Button exports
+│   │   ├── dropdown/           # Dropdown components
+│   │   │   ├── dropdown.tsx    # Main dropdown component
+│   │   │   ├── dropdown-children.tsx # Dropdown children
+│   │   │   ├── language-dropdown.tsx # Language filter dropdown
+│   │   │   ├── tools-dropdown.tsx # Tools selection dropdown
+│   │   │   └── index.ts        # Dropdown exports
+│   │   ├── input/              # Input components
+│   │   │   └── textarea.tsx    # Reusable textarea
+│   │   ├── animated-form-wrapper.tsx # Form animation wrapper
+│   │   ├── badge.tsx           # Badge component
 │   │   ├── form-actions.tsx    # Form action buttons
-│   │   └── tools-dropdown.tsx  # Tools selection dropdown
+│   │   ├── gradient-background.tsx # Animated background
+│   │   └── voice-avatar.tsx    # Voice selection avatar
 │   ├── forms/                   # Form components
 │   │   ├── default-song-form.tsx # Main song creation form
 │   │   └── text-to-speech-form.tsx # TTS form with voice selection
@@ -134,14 +147,30 @@ docker run -p 3000:3000 -v $(pwd):/app musicgpt-dev
 │   ├── useSongGeneration.ts    # Song generation logic
 │   └── useVoices.ts            # Voice fetching logic
 ├── constants/                   # Application constants
-│   └── index.ts                # All constants and config
+│   ├── index.ts                # Main constants export
+│   ├── routes.ts               # Route definitions
+│   └── static-contents.ts      # Static content data
+├── configs/                     # Configuration files
+│   ├── app.config.ts           # App configuration
+│   └── font-config.ts          # Font configuration
+├── utils/                       # Utility functions
+│   ├── twclsx.ts               # Tailwind CSS class utilities
+│   ├── use-navigation-event.ts # Navigation event hooks
+│   ├── use-outside-click-event.ts # Outside click detection
+│   └── use-visibility.ts       # Visibility detection
 ├── assets/                      # Static assets
 │   └── globals.css             # Global styles
-├── configs/                     # Configuration files
-├── utils/                       # Utility functions
-├── Dockerfile                   # Production Dockerfile
-├── Dockerfile.dev              # Development Dockerfile
+├── docs/                        # Documentation
+│   ├── COMMITLINT.md           # Commit message guidelines
+│   └── PULL_REQUEST_TEMPLATE.md # PR template
+├── public/                      # Public static files
+├── .husky/                      # Git hooks configuration
+├── Dockerfile                   # Unified Dockerfile (dev + prod)
 ├── docker-compose.yml          # Docker Compose configuration
+├── next.config.mjs             # Next.js configuration
+├── tailwind.config.ts          # Tailwind CSS configuration
+├── tsconfig.json               # TypeScript configuration
+├── package.json                # Dependencies and scripts
 └── README.md                   # This file
 ```
 
@@ -159,6 +188,7 @@ docker run -p 3000:3000 -v $(pwd):/app musicgpt-dev
 ### UI/UX Decisions
 
 1. **Dark Theme**: Purple gradient background with dark UI for modern aesthetics
+   that matches MusicGPT's theme
 2. **Smooth Animations**: CSS transitions and keyframe animations for
    professional feel
 3. **Responsive Design**: Mobile-first approach with adaptive layouts
@@ -259,15 +289,36 @@ Submit song generation request.
 
 ### Manual Testing Checklist
 
-- [ ] Voice search functionality
-- [ ] Language filtering
-- [ ] Infinite scroll pagination
-- [ ] Form mode switching
-- [ ] Voice selection
-- [ ] Form submission
-- [ ] Responsive design
-- [ ] Loading states
-- [ ] Error handling
+- [x] Voice search functionality
+- [x] Language filtering
+- [x] Infinite scroll pagination
+- [x] Form mode switching
+- [x] Voice selection
+- [x] Form submission
+- [x] Responsive design
+- [x] Loading states
+- [x] Error handling
+- [x] Backend Logging Data
+
+### Available Scripts
+
+```bash
+# Development
+yarn dev              # Start development server
+yarn build            # Build for production
+yarn start            # Start production server
+yarn lint             # Run ESLint
+
+# Testing
+yarn test:e2e         # Run Playwright E2E tests
+
+# Storybook
+yarn storybook        # Start Storybook development server
+yarn build-storybook  # Build Storybook for production
+
+# Code Quality
+yarn prepare          # Setup Husky git hooks
+```
 
 ### Automated Testing (Future)
 
@@ -287,7 +338,7 @@ Submit song generation request.
 
 ```bash
 # Build production image
-docker build -t musicgpt .
+docker build -t musicgpt --target runner .
 
 # Run with environment variables
 docker run -p 3000:3000 \
@@ -311,13 +362,6 @@ NEXT_TELEMETRY_DISABLED=1
 APP_NAME=MusicGPT Prompt Box
 NEXT_PUBLIC_APP_BASE_URL=http://localhost:3000
 NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_AUTH_API_BASE_URL=http://localhost:3000/api/auth
-
-# Assets
-NEXT_PUBLIC_ASSETS_PREFIX_URL=http://localhost:3000/assets
-
-# Logging
-LOG_LEVEL=info
 ```
 
 **Required Variables:**
@@ -331,29 +375,6 @@ LOG_LEVEL=info
 - `DEBUG`: Enable debug mode (defaults to false)
 - `LOG_LEVEL`: Logging level (defaults to info)
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
-for details.
-
-## 🙏 Acknowledgments
-
-- Next.js team for the amazing framework
-- Tailwind CSS for the utility-first styling
-- All contributors and testers
-
-## 📞 Support
-
-For support, email support@musicgpt.com or create an issue in the repository.
-
 ---
 
-**Built with ❤️ using Next.js, TypeScript, and Tailwind CSS**
+**By Baibhav KC ❤️**

@@ -15,7 +15,6 @@ interface DropdownProps {
   className?: string;
   align?: "left" | "right" | "center";
   isRelative?: boolean;
-  interactionType?: "click" | "hover";
 }
 const Dropdown: FunctionComponent<DropdownProps> = ({
   label,
@@ -23,7 +22,6 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
   showDropdownIcon = true,
   className,
   align = "right",
-  interactionType = "click",
   isRelative = true,
 }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);

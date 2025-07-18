@@ -1,5 +1,5 @@
 import { twclsx } from "@/utils/twclsx";
-import { ChangeEvent } from "react";
+import { ChangeEvent, FC } from "react";
 
 interface TextareaProps {
   name?: string;
@@ -10,7 +10,7 @@ interface TextareaProps {
   className?: string;
 }
 
-export const Textarea: React.FC<TextareaProps> = ({
+export const Textarea: FC<TextareaProps> = ({
   name,
   id,
   placeholder,
@@ -26,7 +26,7 @@ export const Textarea: React.FC<TextareaProps> = ({
       value={value}
       onChange={onChange}
       className={twclsx(
-        "block min-h-[120px] w-full resize-none bg-transparent p-5 text-left text-base leading-relaxed text-pure-white outline-none scrollbar-hide placeholder:text-neutral-sub-text",
+        "block min-h-[120px] w-full resize-none bg-transparent p-5 text-left text-base leading-relaxed text-pure-white outline-none scrollbar-hide placeholder:text-neutral-400",
         className,
       )}
     />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, FC } from "react";
+import { useRef, FC, ReactNode } from "react";
 import { Aperture, Check, ChevronDown, Type } from "lucide-react";
 import { Dropdown } from ".";
 import Badge from "../badge";
@@ -10,7 +10,7 @@ interface ToolOption {
   id: string;
   label: string;
   description: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   isPlus?: boolean;
   heading: string;
 }

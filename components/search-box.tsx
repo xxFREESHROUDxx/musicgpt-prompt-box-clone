@@ -1,11 +1,10 @@
 "use client";
 
-import { FC, FormEvent } from "react";
+import { FC } from "react";
 import { useSongGeneration } from "@/hooks/useSongGeneration";
 import { FormActions } from "./common/form-actions";
 import { DefaultSongForm } from "./forms/default-song-form";
 import { TextToSpeechForm } from "./forms/text-to-speech-form";
-import { FORM_HEIGHTS } from "@/constants/static-contents";
 
 const SearchBox: FC = () => {
   const {
@@ -24,7 +23,7 @@ const SearchBox: FC = () => {
     generateSong,
   } = useSongGeneration();
 
-  const handleFormSubmit = (e: FormEvent) => {
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     generateSong();
   };
@@ -32,16 +31,16 @@ const SearchBox: FC = () => {
   const isTextToSpeech = selectedTool === "Text to Speech";
 
   const getFormHeightClass = () => {
-    if (isTextToSpeech) return FORM_HEIGHTS.TEXT_TO_SPEECH;
-    if (activeMode === "lyrics") return FORM_HEIGHTS.LYRICS;
-    return FORM_HEIGHTS.DEFAULT;
+    if (isTextToSpeech) return "h-[290px]";
+    if (activeMode === "lyrics") return "h-[240px]";
+    return "h-[160px]";
   };
 
   return (
     <div className="relative w-full rounded-[27px] bg-neutral-base/80 backdrop-blur-sm transition-all duration-500 ease-in-out">
       <form
         onSubmit={handleFormSubmit}
-        className={`w-full overflow-hidden pb-12 shadow-lg transition-all duration-500 ease-in-out ${getFormHeightClass()}`}
+        className={`w-full overflow-hidden pb-14 transition-all duration-500 ease-in-out ${getFormHeightClass()}`}
       >
         <div className="relative h-full transition-all duration-500 ease-in-out">
           <div

@@ -15,7 +15,6 @@ interface FormActionsProps {
   onModeToggle: (mode: SongMode) => void;
   onToolChange: (tool: Tool) => void;
   onSubmit: () => void;
-  onFileSelect?: (file: File) => void;
 }
 
 export const FormActions: FC<FormActionsProps> = ({
@@ -77,7 +76,7 @@ export const FormActions: FC<FormActionsProps> = ({
         />
         <Button
           type="button"
-          className="relative h-9 w-9 overflow-hidden bg-neutral-base/50 px-0 py-0 transition-all duration-300 ease-in-out"
+          className="relative h-9 w-9 overflow-hidden bg-neutral-base/50 !px-0 !py-0 transition-all duration-300 ease-in-out hover:scale-110"
           variant={ButtonVariants.PRIMARY}
           disabled={!isButtonEnabled || isLoading}
           onClick={onSubmit}

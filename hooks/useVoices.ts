@@ -1,5 +1,4 @@
 import { API_ROUTE_VOICES } from "@/constants/routes";
-import { DEFAULT_VALUES } from "@/constants/static-contents";
 import { useEffect, useRef, useState } from "react";
 
 export interface Voice {
@@ -19,6 +18,12 @@ export interface VoicesResponse {
   voices: Voice[];
   pagination: PaginationInfo;
 }
+
+const DEFAULT_VALUES = {
+  VOICE_LIMIT: 8,
+  SEARCH_DEBOUNCE_DELAY: 300,
+  API_DELAY: 2000,
+} as const;
 
 export const useVoices = () => {
   const [voices, setVoices] = useState<Voice[]>([]);

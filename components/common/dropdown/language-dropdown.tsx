@@ -1,7 +1,7 @@
 "use client";
 
 import { twclsx } from "@/utils/twclsx";
-import { LANGUAGE_OPTIONS } from "@/constants/static-contents";
+import { LANGUAGE_OPTIONS } from "@/constants";
 import Dropdown from "./dropdown";
 import { FC } from "react";
 

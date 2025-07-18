@@ -1,16 +1,16 @@
 "use client";
 
-import { useRef, useCallback, FC } from "react";
+import { useRef, useCallback, FC, ChangeEvent } from "react";
 import { Textarea } from "../common/input/textarea";
 import { VoiceAvatar } from "../common/voice-avatar";
 import { LanguageDropdown } from "../common/dropdown/language-dropdown";
 import { useVoices, Voice } from "@/hooks/useVoices";
-import { FORM_PLACEHOLDERS } from "@/constants/static-contents";
+import { FORM_PLACEHOLDERS } from "@/constants";
 import { Search } from "lucide-react";
 
 interface TextToSpeechFormProps {
   prompt: string;
-  onPromptChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onPromptChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   selectedVoice?: Voice | null;
   onVoiceSelect?: (voice: Voice | null) => void;
 }
@@ -33,7 +33,6 @@ export const TextToSpeechForm: FC<TextToSpeechFormProps> = ({
     voices,
     pagination,
     loading,
-    error,
     currentPage,
     selectedLanguage,
     searchQuery,

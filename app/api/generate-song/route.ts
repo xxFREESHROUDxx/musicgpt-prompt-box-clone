@@ -10,6 +10,7 @@ export async function POST(request: NextRequest) {
   try {
     const body: SongGenerationRequest = await request.json();
 
+    // eslint-disable-next-line no-console
     console.log("Song Generation Request:", {
       timestamp: new Date().toISOString(),
       ...body,
@@ -33,6 +34,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error in song generation:", error);
 
     return NextResponse.json(

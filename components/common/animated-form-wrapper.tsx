@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ReactNode } from "react";
+import { FC, ReactNode } from "react";
 
 interface AnimatedFormWrapperProps {
   children: ReactNode;
@@ -9,7 +9,7 @@ interface AnimatedFormWrapperProps {
   className?: string;
 }
 
-export const AnimatedFormWrapper: React.FC<AnimatedFormWrapperProps> = ({
+export const AnimatedFormWrapper: FC<AnimatedFormWrapperProps> = ({
   children,
   isVisible,
   className = "",

@@ -1,4 +1,4 @@
-import { VOICES_DATA } from "@/constants/static-contents";
+import { VOICES_DATA } from "@/constants";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {

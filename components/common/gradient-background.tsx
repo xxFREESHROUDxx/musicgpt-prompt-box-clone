@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { FC } from "react";
 
-export const GradientBackground: React.FC = () => {
+export const GradientBackground: FC = () => {
   return (
     <div className="fixed inset-0 -z-10">
       <motion.div

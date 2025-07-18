@@ -1,6 +1,6 @@
 import { SongMode } from "@/hooks/useSongGeneration";
 import { Textarea } from "../common/input/textarea";
-import { FORM_PLACEHOLDERS } from "@/constants/static-contents";
+import { FORM_PLACEHOLDERS } from "@/constants";
 import { ChangeEvent, FC } from "react";
 
 interface DefaultSongFormProps {
@@ -20,14 +20,14 @@ export const DefaultSongForm: FC<DefaultSongFormProps> = ({
 }) => {
   return (
     <div className="flex h-full flex-col overflow-hidden px-0">
-      <div className="min-h-0 flex-1">
+      <div className="max-h-24 min-h-24">
         <Textarea
           name="description"
           id="description"
           placeholder={FORM_PLACEHOLDERS.SONG_DESCRIPTION}
           value={prompt}
           onChange={onPromptChange}
-          className="h-full resize-none"
+          className="h-full min-h-20 resize-none"
         />
       </div>
 

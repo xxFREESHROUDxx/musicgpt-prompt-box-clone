@@ -12,7 +12,6 @@ const DropDownChildren: FunctionComponent<{
             className="block whitespace-nowrap"
             key={index}
             onClick={async () => {
-              console.log("Child clicked, className:", child.props.className);
               if ((child.props as any)?.onClick) {
                 await (child.props as any).onClick();
               }
@@ -21,7 +20,6 @@ const DropDownChildren: FunctionComponent<{
                 child.props.className?.includes("dropdown-item") ||
                 child.props.className?.includes("tool-item")
               ) {
-                console.log("Hiding dropdown");
                 hideDropdown();
               }
             }}
