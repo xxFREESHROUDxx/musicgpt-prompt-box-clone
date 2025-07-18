@@ -308,16 +308,6 @@ yarn dev              # Start development server
 yarn build            # Build for production
 yarn start            # Start production server
 yarn lint             # Run ESLint
-
-# Testing
-yarn test:e2e         # Run Playwright E2E tests
-
-# Storybook
-yarn storybook        # Start Storybook development server
-yarn build-storybook  # Build Storybook for production
-
-# Code Quality
-yarn prepare          # Setup Husky git hooks
 ```
 
 ### Automated Testing (Future)
