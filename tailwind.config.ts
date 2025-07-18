@@ -35,9 +35,9 @@ const config: Config = {
         "pure-white": "#ffffff",
         "pure-black": "#000000",
 
-        "purple-primary": "#660F67",
-        "purple-light": "#8B1A8C",
-        "purple-dark": "#4A0B4A",
+        "purple-primary": "#4A0B4A",
+        "purple-light": "#661067",
+        "purple-dark": "#2D072D",
 
         "orange-light": "#FF62001A",
         "orange-dark": "#FF6100",

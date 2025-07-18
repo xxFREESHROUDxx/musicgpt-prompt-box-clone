@@ -4,6 +4,14 @@ import { inter, roboto } from "@/configs/font-config";
 import "@/assets/globals.css";
 import { ReactNode } from "react";
 import { GradientBackground } from "@/components/common/gradient-background";
+import localFont from "next/font/local";
+
+const geistSans = localFont({
+  src: "./fonts/Geist[wght].woff2",
+  weight: "100 900", // range for variable font
+  variable: "--font-geist",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "MusicGPT",
@@ -23,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx(roboto.className, roboto.variable, inter.variable)}>
+      <body className={`${geistSans.variable} font-sans`}>
         <GradientBackground />
         {children}
       </body>

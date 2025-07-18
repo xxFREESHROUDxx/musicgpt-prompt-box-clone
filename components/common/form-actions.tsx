@@ -1,9 +1,10 @@
 import { Paperclip, AudioLines, Plus, ArrowRight } from "lucide-react";
 import { ButtonVariants } from "./button";
 import Button from "./button/button";
-import { ToolsDropdown } from "./tools-dropdown";
 import { twclsx } from "@/utils/twclsx";
 import { SongMode, Tool } from "@/hooks/useSongGeneration";
+import { ToolsDropdown } from "./dropdown/tools-dropdown";
+import { FC } from "react";
 
 interface FormActionsProps {
   activeMode: SongMode;
@@ -14,9 +15,10 @@ interface FormActionsProps {
   onModeToggle: (mode: SongMode) => void;
   onToolChange: (tool: Tool) => void;
   onSubmit: () => void;
+  onFileSelect?: (file: File) => void;
 }
 
-export const FormActions: React.FC<FormActionsProps> = ({
+export const FormActions: FC<FormActionsProps> = ({
   activeMode,
   selectedTool,
   isButtonEnabled,
@@ -27,11 +29,12 @@ export const FormActions: React.FC<FormActionsProps> = ({
   onSubmit,
 }) => {
   return (
-    <div className="absolute bottom-3 left-3 right-3 flex h-9 items-center justify-between">
+    <div className="absolute bottom-2 left-3 right-3 mb-2 flex h-9 items-center justify-between">
       <div className="flex gap-1">
         {showModeButtons && selectedTool !== "Text to Speech" && (
           <>
             <Button variant={ButtonVariants.PRIMARY}>
+              <input type="file" accept="audio/*" className="hidden" />
               <Paperclip
                 height={16}
                 width={16}

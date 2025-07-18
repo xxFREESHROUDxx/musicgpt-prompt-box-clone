@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useRef, FC } from "react";
+import { useRef, FC } from "react";
 import { Aperture, Check, ChevronDown, Type } from "lucide-react";
-import { Dropdown } from "./dropdown";
-import Badge from "./badge";
+import { Dropdown } from ".";
+import Badge from "../badge";
+import { Tool } from "@/hooks/useSongGeneration";
 
-interface Tool {
+interface ToolOption {
   id: string;
   label: string;
   description: string;
@@ -15,11 +16,11 @@ interface Tool {
 }
 
 interface ToolsDropdownProps {
-  onToolChange?: (tool: "Create anything" | "Text to Speech") => void;
-  selectedTool?: string;
+  onToolChange: (tool: Tool) => void;
+  selectedTool: Tool;
 }
 
-const tools: Tool[] = [
+const tools: ToolOption[] = [
   {
     id: "create-anything",
     label: "Tools",
@@ -37,19 +38,17 @@ const tools: Tool[] = [
   },
 ];
 
-export const ToolsDropdown = ({
+export const ToolsDropdown: FC<ToolsDropdownProps> = ({
   onToolChange,
-  selectedTool = "Create anything",
-}: ToolsDropdownProps) => {
+  selectedTool,
+}) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Find the active tool based on selectedTool prop
   const activeTool =
     tools.find((tool) => tool.heading === selectedTool) || tools[0];
 
-  const handleToolSelect = (tool: Tool) => {
-    onToolChange?.(tool.heading as "Create anything" | "Text to Speech");
-    // Close dropdown by clicking outside
+  const handleToolSelect = (tool: ToolOption) => {
+    onToolChange(tool.heading as Tool);
     setTimeout(() => {
       document.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
     }, 0);
@@ -61,7 +60,7 @@ export const ToolsDropdown = ({
         align="right"
         label={
           <span className="flex items-center gap-1">
-            {activeTool.heading}
+            {activeTool.label}
             <ChevronDown
               height={16}
               width={16}

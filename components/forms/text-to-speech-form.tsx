@@ -1,9 +1,12 @@
 "use client";
 
-import { useRef, useCallback } from "react";
-import { Textarea } from "../common/textarea";
+import { useRef, useCallback, FC } from "react";
+import { Textarea } from "../common/input/textarea";
 import { VoiceAvatar } from "../common/voice-avatar";
+import { LanguageDropdown } from "../common/dropdown/language-dropdown";
 import { useVoices, Voice } from "@/hooks/useVoices";
+import { FORM_PLACEHOLDERS } from "@/constants/static-contents";
+import { Search } from "lucide-react";
 
 interface TextToSpeechFormProps {
   prompt: string;
@@ -20,7 +23,7 @@ const VoiceSkeleton = () => (
   </div>
 );
 
-export const TextToSpeechForm: React.FC<TextToSpeechFormProps> = ({
+export const TextToSpeechForm: FC<TextToSpeechFormProps> = ({
   prompt,
   onPromptChange,
   selectedVoice,
@@ -63,59 +66,40 @@ export const TextToSpeechForm: React.FC<TextToSpeechFormProps> = ({
   };
 
   return (
-    <div className="flex h-full w-full flex-col justify-between gap-5 p-5 pb-0 sm:flex-row">
-      <div className="flex min-w-0 flex-1 flex-col gap-4">
+    <div className="flex h-full w-full flex-col justify-between gap-6 p-6 pb-0 sm:flex-row">
+      <div className="flex min-w-0 flex-1 flex-col gap-6">
         <div className="flex gap-3">
-          <div className="relative min-w-0 flex-1">
+          <div className="relative flex w-full">
             <input
               type="text"
-              placeholder="Search voices"
+              placeholder={FORM_PLACEHOLDERS.VOICE_SEARCH}
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full rounded-lg bg-neutral-hover px-4 py-2 text-pure-white placeholder:text-neutral-sub-text"
+              className="block w-full rounded-full bg-neutral-hover px-4 py-2 text-pure-white placeholder:text-neutral-sub-text"
             />
-            <svg
-              className="absolute right-3 top-2.5 h-4 w-4 text-neutral-sub-text"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
+            <Search className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-sub-text" />
           </div>
-          <select
-            className="min-w-[140px] rounded-lg bg-neutral-hover px-4 py-2 text-pure-white"
-            value={selectedLanguage}
-            onChange={(e) => handleLanguageChange(e.target.value)}
-          >
-            <option value="all">All languages</option>
-            <option value="english">English</option>
-            <option value="nepali">Nepali</option>
-            <option value="indian">Indian</option>
-          </select>
+          <LanguageDropdown
+            selectedLanguage={selectedLanguage}
+            onLanguageChange={handleLanguageChange}
+          />
         </div>
 
-        <div className="grid max-h-48 grid-cols-4 gap-4 overflow-y-auto pt-2 scrollbar-hide">
+        <div className="grid max-h-48 grid-cols-4 gap-4 overflow-y-auto pt-1 scrollbar-hide">
           {loading && currentPage === 1
-            ? // Show skeletons for initial load
-              Array.from({ length: 8 }).map((_, index) => (
+            ? Array.from({ length: 8 }).map((_, index) => (
                 <VoiceSkeleton key={index} />
               ))
             : voices.map((voice, index) => {
-                const isLast = index === voices.length - 1;
+                const isLast = index === voices?.length - 1;
                 return (
                   <div
-                    key={`${voice.name}-${index}`}
+                    key={`${voice?.name}-${index}`}
                     ref={isLast ? lastVoiceRef : undefined}
                   >
                     <VoiceAvatar
-                      name={voice.name}
-                      isSelected={selectedVoice?.name === voice.name}
+                      name={voice?.name}
+                      isSelected={selectedVoice?.name === voice?.name}
                       onClick={() => handleVoiceClick(voice)}
                     />
                   </div>
@@ -128,7 +112,7 @@ export const TextToSpeechForm: React.FC<TextToSpeechFormProps> = ({
               className="col-span-4 flex justify-center py-4"
             >
               <div className="flex gap-2">
-                {Array.from({ length: 3 }).map((_, index) => (
+                {Array.from({ length: 3 })?.map((_, index) => (
                   <div
                     key={index}
                     className="animate-bounce h-2 w-2 rounded-full bg-neutral-light"
@@ -141,24 +125,24 @@ export const TextToSpeechForm: React.FC<TextToSpeechFormProps> = ({
         </div>
       </div>
 
-      <div className="flex w-full max-w-[350px] flex-col gap-4">
+      <div className="my-1 flex w-1/3 flex-col gap-6">
         <div className="flex items-center gap-2">
           {selectedVoice ? (
             <>
               <VoiceAvatar
-                name={selectedVoice.name}
+                name={selectedVoice?.name || "Default Voice"}
                 isSelected={true}
                 hideName
                 className="flex-row gap-2"
               />
-              <span className="text-body-base text-pure-white">
-                {selectedVoice.name}
+              <span className="text-body-base text-neutral-light">
+                {selectedVoice?.name || "Default Voice"}
               </span>
             </>
           ) : (
             <>
-              <div className="h-6 w-6 rounded-full bg-gradient-to-r from-purple-400 to-pink-400"></div>
-              <span className="text-body-base text-pure-white">
+              <div className="h-6 w-6 rounded-full bg-neutral-light"></div>
+              <span className="text-body-base text-neutral-light">
                 Default Voice
               </span>
             </>
@@ -169,7 +153,7 @@ export const TextToSpeechForm: React.FC<TextToSpeechFormProps> = ({
           <Textarea
             name="text-to-speech"
             id="text-to-speech"
-            placeholder="Enter text.."
+            placeholder={FORM_PLACEHOLDERS.TEXT_TO_SPEECH}
             value={prompt}
             onChange={onPromptChange}
           />

@@ -1,16 +1,17 @@
 import { SongMode } from "@/hooks/useSongGeneration";
-import { Textarea } from "../common/textarea";
-import { twclsx } from "@/utils/twclsx";
+import { Textarea } from "../common/input/textarea";
+import { FORM_PLACEHOLDERS } from "@/constants/static-contents";
+import { ChangeEvent, FC } from "react";
 
 interface DefaultSongFormProps {
   prompt: string;
   lyrics: string;
   activeMode: SongMode;
-  onPromptChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onLyricsChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onPromptChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  onLyricsChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export const DefaultSongForm: React.FC<DefaultSongFormProps> = ({
+export const DefaultSongForm: FC<DefaultSongFormProps> = ({
   prompt,
   lyrics,
   activeMode,
@@ -18,29 +19,30 @@ export const DefaultSongForm: React.FC<DefaultSongFormProps> = ({
   onLyricsChange,
 }) => {
   return (
-    <div className="flex h-full flex-col overflow-hidden">
+    <div className="flex h-full flex-col overflow-hidden px-0">
       <div className="min-h-0 flex-1">
         <Textarea
           name="description"
           id="description"
-          placeholder="Describe your song"
+          placeholder={FORM_PLACEHOLDERS.SONG_DESCRIPTION}
           value={prompt}
           onChange={onPromptChange}
-          className="h-full pt-4"
+          className="h-full resize-none"
         />
       </div>
 
-      {/* Conditional Lyrics Textarea */}
       {activeMode === "lyrics" && (
-        <div className="border-t border-neutral-hover px-5 py-3">
-          <Textarea
-            name="lyrics"
-            id="lyrics"
-            placeholder="Enter your lyrics here"
-            value={lyrics}
-            onChange={onLyricsChange}
-            className="min-h-14 pl-0 pt-0"
-          />
+        <div className="animate-in fade-in-0 slide-in-from-top-2 duration-300">
+          <div className="border-t border-neutral-hover pt-4">
+            <Textarea
+              name="lyrics"
+              id="lyrics"
+              placeholder={FORM_PLACEHOLDERS.LYRICS}
+              value={lyrics}
+              onChange={onLyricsChange}
+              className="max-h-32 min-h-20 resize-none pt-0"
+            />
+          </div>
         </div>
       )}
     </div>

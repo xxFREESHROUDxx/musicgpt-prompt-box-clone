@@ -1,3 +1,4 @@
+import { API_ROUTE_GENERATE_SONG } from "@/constants/routes";
 import { useState } from "react";
 import { Voice } from "./useVoices";
 
@@ -27,7 +28,7 @@ export const useSongGeneration = () => {
   const handleModeToggle = (mode: SongMode) => {
     setActiveMode((prev) => (prev === mode ? null : mode));
     if (mode !== "lyrics") {
-      setLyrics(""); // Clear lyrics when switching away from lyrics mode
+      setLyrics("");
     }
   };
 
@@ -82,12 +83,12 @@ export const useSongGeneration = () => {
     try {
       let requestBody: SongGenerationRequest = {
         prompt: prompt.trim(),
-        type: "create anything", // Default type
+        type: "create anything",
       };
 
       // Determine the type based on selected tool and mode
       if (selectedTool === "Text to Speech") {
-        if (selectedVoice) {
+        if (selectedVoice?.name) {
           requestBody.type = `text to speech: ${selectedVoice.name}`;
         } else {
           requestBody.type = "text to speech: default voice";
@@ -105,7 +106,7 @@ export const useSongGeneration = () => {
       console.log("Frontend Request Body:", requestBody);
 
       // Make the actual API call to backend
-      const response = await fetch("/api/generate-song", {
+      const response = await fetch(`${API_ROUTE_GENERATE_SONG}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestBody),

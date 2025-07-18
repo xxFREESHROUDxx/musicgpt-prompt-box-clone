@@ -1,12 +1,12 @@
-import React from "react";
 import { twclsx } from "@/utils/twclsx";
+import { ChangeEvent } from "react";
 
 interface TextareaProps {
   name?: string;
   id?: string;
   placeholder?: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   className?: string;
 }
 

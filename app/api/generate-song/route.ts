@@ -10,13 +10,12 @@ export async function POST(request: NextRequest) {
   try {
     const body: SongGenerationRequest = await request.json();
 
-    // Log the request data to backend console
-    console.log("🎵 Song Generation Request:", {
+    console.log("Song Generation Request:", {
       timestamp: new Date().toISOString(),
       ...body,
     });
 
-    // Simulate processing time
+    // Simulate api processing time
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Here you would implement the actual song generation logic
@@ -34,7 +33,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("❌ Error in song generation:", error);
+    console.error("Error in song generation:", error);
 
     return NextResponse.json(
       {

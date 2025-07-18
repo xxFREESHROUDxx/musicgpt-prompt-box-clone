@@ -39,7 +39,7 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
 
   return (
     <div
-      className={twclsx(`dropdown dropdown-toggle h-9 w-full select-none`, {
+      className={twclsx(`dropdown dropdown-toggle h-9 select-none`, {
         relative: isRelative,
       })}
       ref={dropdownRef}
@@ -70,7 +70,7 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
 
       <div
         className={twclsx(
-          "absolute top-full z-dropdown transform overflow-hidden rounded-2xl border border-neutral-base bg-neutral-black/85 p-0 shadow-base transition-all duration-300 ease-in-out max-sm:w-full",
+          "absolute top-full z-50 transform overflow-hidden rounded-2xl border border-neutral-base bg-neutral-black/85 p-1.5 shadow-lg transition-all duration-300 ease-in-out max-sm:w-full",
           {
             "right-1/2 w-full translate-x-1/2": align === "center",
             "left-0": align === "left",

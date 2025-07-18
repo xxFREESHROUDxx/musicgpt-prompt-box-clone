@@ -9,7 +9,7 @@ const DropDownChildren: FunctionComponent<{
       {React.Children.map(children, (child, index) =>
         React.isValidElement(child) ? (
           <span
-            className="block whitespace-nowrap border-t border-neutral-light first:border-t-0"
+            className="block whitespace-nowrap"
             key={index}
             onClick={async () => {
               console.log("Child clicked, className:", child.props.className);

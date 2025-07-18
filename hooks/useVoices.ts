@@ -1,3 +1,5 @@
+import { API_ROUTE_VOICES } from "@/constants/routes";
+import { DEFAULT_VALUES } from "@/constants/static-contents";
 import { useEffect, useRef, useState } from "react";
 
 export interface Voice {
@@ -39,12 +41,12 @@ export const useVoices = () => {
     try {
       const params = new URLSearchParams({
         page: currentPage.toString(),
-        limit: "8",
+        limit: DEFAULT_VALUES.VOICE_LIMIT.toString(),
         language: selectedLanguage,
         search: debouncedSearchQuery,
       });
 
-      const response = await fetch(`/api/voices?${params}`);
+      const response = await fetch(`${API_ROUTE_VOICES}?${params}`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch voices");
@@ -53,11 +55,19 @@ export const useVoices = () => {
       const data: VoicesResponse = await response.json();
 
       if (currentPage === 1) {
-        setVoices(data.voices);
+        setVoices(data?.voices || []);
       } else {
-        setVoices((prev) => [...prev, ...data.voices]);
+        setVoices((prev) => [...prev, ...(data?.voices || [])]);
       }
-      setPagination(data.pagination);
+      setPagination(
+        data?.pagination || {
+          currentPage: 1,
+          totalPages: 1,
+          totalVoices: 0,
+          hasNextPage: false,
+          hasPrevPage: false,
+        },
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -73,7 +83,7 @@ export const useVoices = () => {
 
     searchTimeoutRef.current = setTimeout(() => {
       setDebouncedSearchQuery(searchQuery);
-    }, 300);
+    }, DEFAULT_VALUES.SEARCH_DEBOUNCE_DELAY);
 
     return () => {
       if (searchTimeoutRef.current) {

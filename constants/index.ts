@@ -20,8 +20,8 @@ export const ANIMATION_CONFIG = {
   GRADIENT: {
     CYCLE_DURATION: 8000, // Increased from 4000ms to 8000ms for slower animation
     COLORS: {
-      PURPLE_PRIMARY: "#660F67",
-      PURPLE_LIGHT: "#8B1A8C",
+      PURPLE_PRIMARY: "#4A0B4A",
+      PURPLE_LIGHT: "#661067",
       BLACK: "#000000",
     },
   },

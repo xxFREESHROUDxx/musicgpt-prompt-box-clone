@@ -1,6 +1,6 @@
 "use client";
 
-import { ButtonHTMLAttributes, FunctionComponent, ReactNode } from "react";
+import { ButtonHTMLAttributes, FC, ReactNode } from "react";
 import { ButtonSizes, ButtonVariants } from ".";
 import { twclsx } from "@/utils/twclsx";
 
@@ -14,7 +14,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
   borderLess?: boolean;
 }
-const Button: FunctionComponent<ButtonProps> = ({
+const Button: FC<ButtonProps> = ({
   label,
   className,
   loading,
