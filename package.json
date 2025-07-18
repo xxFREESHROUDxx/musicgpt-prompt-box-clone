@@ -7,10 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "prepare": "husky && husky install",
-    "test:e2e": "playwright test"
+    "prepare": "husky && husky install"
   },
   "dependencies": {
     "clsx": "^2.0.0",

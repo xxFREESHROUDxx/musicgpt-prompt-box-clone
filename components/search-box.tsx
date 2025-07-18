@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, FormEvent } from "react";
 import { useSongGeneration } from "@/hooks/useSongGeneration";
 import { FormActions } from "./common/form-actions";
 import { DefaultSongForm } from "./forms/default-song-form";
@@ -23,7 +23,7 @@ const SearchBox: FC = () => {
     generateSong,
   } = useSongGeneration();
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
     generateSong();
   };

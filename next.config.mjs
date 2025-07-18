@@ -1,9 +1,6 @@
 const nextConfig = {
   transpilePackages: ["framer-motion"],
   output: "standalone",
-  experimental: {
-    appDir: true,
-  },
   images: {
     domains: [],
   },
