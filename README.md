@@ -1,36 +1,380 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MusicGPT
 
-## Getting Started
+A search bar clone of MusicGPT.
 
-First, run the development server:
+## 🚀 Features
+
+### Core Functionality
+
+- **Multi-Mode Song Creation**: Support for "Create anything", "Instrumental",
+  and "Lyrics" modes
+- **Text-to-Speech Integration**: Voice selection with 30+ real actor voices
+  from English, Nepali, and Indian backgrounds
+- **Dynamic Form Transitions**: Smooth animations between different form modes
+- **Real-time Search & Filtering**: Search voices by name and filter by language
+- **Infinite Scroll Pagination**: Load more voices as you scroll
+- **Responsive Design**: Mobile-first approach with adaptive layouts
+
+### Technical Features
+
+- **Backend API Integration**: RESTful API endpoints for voice fetching and song
+  generation
+- **Loading States**: Skeleton loading and smooth transitions
+- **Form Validation**: Real-time validation with proper error handling
+- **State Management**: Custom hooks for clean state management
+- **TypeScript**: Full type safety throughout the application
+- **Docker Support**: Complete containerization for development and production
+- **Code Quality**: ESLint, Prettier, Husky, and commitlint for code standards
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 14, React 18, TypeScript
+- **Styling**: Tailwind CSS, Custom CSS animations
+- **State Management**: React Hooks, Custom hooks
+- **API**: Next.js API Routes
+- **Containerization**: Docker, Docker Compose
+- **Package Manager**: Yarn
+- **Development**: ESLint, Prettier, Husky, commitlint
+
+## 📦 Installation & Setup
+
+### Prerequisites
+
+- Node.js 18+
+- Yarn
+- Docker (optional)
+
+### Local Development
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd musicgpt-prompt-box-clone
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   yarn install
+   ```
+
+3. **Set up environment variables**
+
+   ```bash
+   cp .env.example .env.local
+   # Edit .env.local with your configuration
+   ```
+
+4. **Run the development server**
+
+   ```bash
+   yarn dev
+   ```
+
+5. **Open your browser** Navigate to
+   [http://localhost:3000](http://localhost:3000)
+
+### Docker Setup
+
+#### Production Build
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Build and run production container
+docker-compose up --build
+
+# Or run in detached mode
+docker-compose up -d --build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Development Build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Run development container with hot reload
+docker-compose --profile dev up --build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### Individual Docker Commands
 
-## Learn More
+```bash
+# Build production image
+docker build -t musicgpt --target runner .
 
-To learn more about Next.js, take a look at the following resources:
+# Build development image
+docker build -t musicgpt-dev --target development .
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Run production container
+docker run -p 3000:3000 musicgpt
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Run development container with volumes
+docker run -p 3000:3000 -v $(pwd):/app -v /app/node_modules -v /app/.next musicgpt-dev
+```
 
-## Deploy on Vercel
+## 🏗️ Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+├── app/                          # Next.js 14+ App Router
+│   ├── api/                      # API Routes
+│   │   ├── generate-song/        # Song generation endpoint
+│   │   └── voices/              # Voice fetching endpoint
+│   ├── fonts/                   # Font files
+│   ├── layout.tsx               # Root layout
+│   └── page.tsx                 # Home page
+│
+├── components/                   # React Components
+│   ├── common/                  # Shared components
+│   │   ├── button/             # Button components
+│   │   │   ├── button.tsx      # Main button component
+│   │   │   └── index.ts        # Button exports
+│   │   ├── dropdown/           # Dropdown components
+│   │   │   ├── dropdown.tsx    # Main dropdown component
+│   │   │   ├── dropdown-children.tsx # Dropdown children
+│   │   │   ├── language-dropdown.tsx # Language filter dropdown
+│   │   │   ├── tools-dropdown.tsx # Tools selection dropdown
+│   │   │   └── index.ts        # Dropdown exports
+│   │   ├── input/              # Input components
+│   │   │   └── textarea.tsx    # Reusable textarea
+│   │   ├── animated-form-wrapper.tsx # Form animation wrapper
+│   │   ├── badge.tsx           # Badge component
+│   │   ├── form-actions.tsx    # Form action buttons
+│   │   ├── gradient-background.tsx # Animated background
+│   │   └── voice-avatar.tsx    # Voice selection avatar
+│   ├── forms/                   # Form components
+│   │   ├── default-song-form.tsx # Main song creation form
+│   │   └── text-to-speech-form.tsx # TTS form with voice selection
+│   └── search-box.tsx          # Main search container
+├── hooks/                       # Custom React Hooks
+│   ├── useSongGeneration.ts    # Song generation logic
+│   └── useVoices.ts            # Voice fetching logic
+├── constants/                   # Application constants
+│   ├── index.ts                # Main constants export
+│   ├── routes.ts               # Route definitions
+│   └── static-contents.ts      # Static content data
+├── configs/                     # Configuration files
+│   ├── app.config.ts           # App configuration
+│   └── font-config.ts          # Font configuration
+├── utils/                       # Utility functions
+│   ├── twclsx.ts               # Tailwind CSS class utilities
+│   ├── use-navigation-event.ts # Navigation event hooks
+│   ├── use-outside-click-event.ts # Outside click detection
+│   └── use-visibility.ts       # Visibility detection
+├── assets/                      # Static assets
+│   └── globals.css             # Global styles
+├── docs/                        # Documentation
+│   ├── COMMITLINT.md           # Commit message guidelines
+│   └── PULL_REQUEST_TEMPLATE.md # PR template
+├── public/                      # Public static files
+├── .husky/                      # Git hooks configuration
+├── Dockerfile                   # Unified Dockerfile (dev + prod)
+├── docker-compose.yml          # Docker Compose configuration
+├── next.config.mjs             # Next.js configuration
+├── tailwind.config.ts          # Tailwind CSS configuration
+├── tsconfig.json               # TypeScript configuration
+├── package.json                # Dependencies and scripts
+└── README.md                   # This file
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🎨 Design Decisions
+
+### Architecture Patterns
+
+1. **Component Composition**: Modular, reusable components with clear separation
+   of concerns
+2. **Custom Hooks**: Business logic separated into custom hooks for reusability
+3. **Constants Management**: Centralized configuration for easy maintenance
+4. **Type Safety**: Full TypeScript implementation for better development
+   experience
+
+### UI/UX Decisions
+
+1. **Dark Theme**: Purple gradient background with dark UI for modern aesthetics
+   that matches MusicGPT's theme
+2. **Smooth Animations**: CSS transitions and keyframe animations for
+   professional feel
+3. **Responsive Design**: Mobile-first approach with adaptive layouts
+4. **Loading States**: Skeleton loading and smooth transitions for better UX
+5. **Form Validation**: Real-time validation with visual feedback
+
+### Performance Optimizations
+
+1. **Debounced Search**: 300ms delay to prevent excessive API calls
+2. **Infinite Scroll**: Efficient pagination with intersection observer
+3. **Image Optimization**: Next.js built-in image optimization
+4. **Code Splitting**: Automatic code splitting by Next.js
+5. **Docker Optimization**: Multi-stage builds for smaller production images
+
+## 🔧 API Endpoints
+
+### GET /api/voices
+
+Fetch paginated list of voices with search and filtering.
+
+**Query Parameters:**
+
+- `page`: Page number (default: 1)
+- `limit`: Items per page (default: 8)
+- `language`: Filter by language (all, english, nepali, indian)
+- `search`: Search by voice name
+
+**Response:**
+
+```json
+{
+  "voices": [
+    {
+      "name": "Emma Watson",
+      "language": "english"
+    }
+  ],
+  "pagination": {
+    "currentPage": 1,
+    "totalPages": 4,
+    "totalVoices": 30,
+    "hasNextPage": true,
+    "hasPrevPage": false
+  }
+}
+```
+
+### POST /api/generate-song
+
+Submit song generation request.
+
+**Request Body:**
+
+```json
+{
+  "prompt": "Create a happy song about summer",
+  "type": "text to speech: Emma Watson",
+  "lyrics": "Optional lyrics content"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Song generation request received",
+  "data": {
+    "id": "song_1234567890",
+    "type": "text to speech: Emma Watson",
+    "prompt": "Create a happy song about summer",
+    "status": "processing"
+  }
+}
+```
+
+## 🎭 Animation System
+
+### Gradient Background Animation
+
+- **4-second cycle** with smooth color transitions
+- **Purple to black gradient** that animates from top to center and back
+- **CSS keyframes** for optimal performance
+
+### Form Transitions
+
+- **Slide animations** between different form modes
+- **Opacity transitions** for smooth fade effects
+- **Height animations** for dynamic form sizing
+
+### Loading States
+
+- **Skeleton loading** for initial voice loading
+- **Bouncing dots** for pagination loading
+- **Smooth transitions** for all state changes
+
+## 🧪 Testing
+
+### Manual Testing Checklist
+
+- [x] Voice search functionality
+- [x] Language filtering
+- [x] Infinite scroll pagination
+- [x] Form mode switching
+- [x] Voice selection
+- [x] Form submission
+- [x] Responsive design
+- [x] Loading states
+- [x] Error handling
+- [x] Backend Logging Data
+
+### Available Scripts
+
+```bash
+# Development
+yarn dev              # Start development server
+yarn build            # Build for production
+yarn start            # Start production server
+yarn lint             # Run ESLint
+
+# Testing
+yarn test:e2e         # Run Playwright E2E tests
+
+# Storybook
+yarn storybook        # Start Storybook development server
+yarn build-storybook  # Build Storybook for production
+
+# Code Quality
+yarn prepare          # Setup Husky git hooks
+```
+
+### Automated Testing (Future)
+
+- Unit tests with Jest
+- Integration tests with Playwright
+- E2E tests for critical user flows
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+1. Connect your GitHub repository
+2. Configure environment variables
+3. Deploy automatically on push
+
+### Docker Deployment
+
+```bash
+# Build production image
+docker build -t musicgpt --target runner .
+
+# Run with environment variables
+docker run -p 3000:3000 \
+  -e NODE_ENV=production \
+  -e NEXT_PUBLIC_API_URL=https://your-api.com \
+  musicgpt
+```
+
+### Environment Variables
+
+Copy `.env.example` to `.env.local` and configure the following variables:
+
+```bash
+# Application Configuration
+NODE_ENV=development
+APP_ENV=development
+DEBUG=false
+NEXT_TELEMETRY_DISABLED=1
+
+# App Configuration
+APP_NAME=MusicGPT Prompt Box
+NEXT_PUBLIC_APP_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
+```
+
+**Required Variables:**
+
+- `NEXT_PUBLIC_API_BASE_URL`: Your API base URL
+- `NEXT_PUBLIC_APP_BASE_URL`: Your application base URL
+
+**Optional Variables:**
+
+- `APP_NAME`: Custom application name (defaults to "MusicGPT Prompt Box")
+- `DEBUG`: Enable debug mode (defaults to false)
+- `LOG_LEVEL`: Logging level (defaults to info)
+
+---
+
+**By Baibhav KC ❤️**
