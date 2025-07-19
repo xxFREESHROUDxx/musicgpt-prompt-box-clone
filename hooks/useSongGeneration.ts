@@ -1,3 +1,4 @@
+import { useToast } from "@/components/common/toast/toast-container";
 import { API_ROUTE_GENERATE_SONG } from "@/constants/routes";
 import { useState } from "react";
 import { Voice } from "./useVoices";
@@ -18,6 +19,7 @@ export const useSongGeneration = () => {
   const [selectedTool, setSelectedTool] = useState<Tool>("Create anything");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedVoice, setSelectedVoice] = useState<Voice | null>(null);
+  const { fireToast } = useToast();
 
   // Store previous input values for restoration
   const [previousPrompt, setPreviousPrompt] = useState("");
@@ -115,6 +117,8 @@ export const useSongGeneration = () => {
 
       const data = await response.json();
 
+      fireToast("success", 3000, "Prompt Submission Successful");
+
       // Clear all inputs after successful submission
       setPrompt("");
       setLyrics("");
@@ -128,6 +132,7 @@ export const useSongGeneration = () => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error("Error generating song:", error);
+      fireToast("error", 3000, "Failed to submit prompt. Please try again.");
     } finally {
       setIsLoading(false);
     }

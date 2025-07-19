@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "@/assets/globals.css";
 import { ReactNode } from "react";
 import { GradientBackground } from "@/components/common/gradient-background";
+import { ToastContainer } from "@/components/common/toast/toast-container";
 import localFont from "next/font/local";
 
 const geistSans = localFont({
@@ -33,8 +34,10 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body className={`${geistSans.variable} font-sans`}>
-        <GradientBackground />
-        {children}
+        <ToastContainer>
+          <GradientBackground />
+          {children}
+        </ToastContainer>
       </body>
     </html>
   );

@@ -70,7 +70,7 @@ const SongCreationInterface: FC = () => {
       </div>
 
       {/* Form Container */}
-      <div className="relative w-full rounded-[27px] border border-neutral-600 bg-neutral-base/80 shadow-lg backdrop-blur-sm transition-all duration-500 ease-in-out">
+      <div className="relative w-full rounded-[27px] bg-neutral-base/80 shadow-lg backdrop-blur-sm transition-all duration-500 ease-in-out">
         <form
           onSubmit={handleFormSubmit}
           className={`w-full overflow-hidden transition-all duration-500 ease-in-out ${getFormHeightClass()}`}
