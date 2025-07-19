@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // API delay for initial data fetch
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");

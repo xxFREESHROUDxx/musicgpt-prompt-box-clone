@@ -28,7 +28,7 @@ export const FormActions: FC<FormActionsProps> = ({
   onSubmit,
 }) => {
   return (
-    <div className="absolute bottom-2 left-3 right-3 mb-2 flex h-9 items-center justify-between">
+    <div className="flex h-9 items-center justify-between">
       <div className="flex gap-1">
         {showModeButtons && selectedTool !== "Text to Speech" && (
           <>

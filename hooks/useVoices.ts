@@ -1,5 +1,5 @@
 import { API_ROUTE_VOICES } from "@/constants/routes";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export interface Voice {
   name: string;
@@ -22,8 +22,47 @@ export interface VoicesResponse {
 const DEFAULT_VALUES = {
   VOICE_LIMIT: 8,
   SEARCH_DEBOUNCE_DELAY: 300,
-  API_DELAY: 2000,
 } as const;
+
+// Create a cache for voice data to work with Suspense
+const voiceCache = new Map<string, Promise<VoicesResponse>>();
+
+export const fetchVoicesData = (
+  page: number,
+  language: string,
+  search: string,
+): Promise<VoicesResponse> => {
+  const cacheKey = `${page}-${language}-${search}`;
+
+  if (voiceCache.has(cacheKey)) {
+    return voiceCache.get(cacheKey)!;
+  }
+
+  const promise = (async () => {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: DEFAULT_VALUES.VOICE_LIMIT.toString(),
+      language,
+      search,
+    });
+
+    const response = await fetch(`${API_ROUTE_VOICES}?${params}`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch voices");
+    }
+
+    return response.json();
+  })();
+
+  voiceCache.set(cacheKey, promise);
+  return promise;
+};
+
+// Clear cache when needed
+export const clearVoiceCache = () => {
+  voiceCache.clear();
+};
 
 export const useVoices = () => {
   const [voices, setVoices] = useState<Voice[]>([]);
@@ -39,55 +78,89 @@ export const useVoices = () => {
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
 
-  const fetchVoices = async () => {
-    setLoading(true);
-    setError(null);
+  // Track if we're in the middle of a search to prevent flickering
+  const [isTypingSearch, setIsTypingSearch] = useState(false);
 
-    try {
-      const params = new URLSearchParams({
-        page: currentPage.toString(),
-        limit: DEFAULT_VALUES.VOICE_LIMIT.toString(),
+  // Refs to track current fetch parameters to prevent duplicate calls
+  const currentFetchRef = useRef<{
+    page: number;
+    language: string;
+    search: string;
+  } | null>(null);
+
+  // Track if user is actively searching (only for typing indicator)
+  const isSearching =
+    isTypingSearch ||
+    (searchQuery !== "" && searchQuery !== debouncedSearchQuery);
+
+  const fetchVoices = useCallback(
+    async (resetVoices = false) => {
+      // Prevent duplicate calls with same parameters
+      const fetchParams = {
+        page: currentPage,
         language: selectedLanguage,
         search: debouncedSearchQuery,
-      });
+      };
 
-      const response = await fetch(`${API_ROUTE_VOICES}?${params}`);
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch voices");
+      if (
+        currentFetchRef.current &&
+        currentFetchRef.current.page === fetchParams.page &&
+        currentFetchRef.current.language === fetchParams.language &&
+        currentFetchRef.current.search === fetchParams.search
+      ) {
+        return;
       }
 
-      const data: VoicesResponse = await response.json();
+      currentFetchRef.current = fetchParams;
+      setLoading(true);
+      setError(null);
 
-      if (currentPage === 1) {
-        setVoices(data?.voices || []);
-      } else {
-        setVoices((prev) => [...prev, ...(data?.voices || [])]);
+      try {
+        const data = await fetchVoicesData(
+          currentPage,
+          selectedLanguage,
+          debouncedSearchQuery,
+        );
+
+        if (currentPage === 1 || resetVoices) {
+          setVoices(data?.voices || []);
+        } else {
+          setVoices((prev) => [...prev, ...(data?.voices || [])]);
+        }
+        setPagination(
+          data?.pagination || {
+            currentPage: 1,
+            totalPages: 1,
+            totalVoices: 0,
+            hasNextPage: false,
+            hasPrevPage: false,
+          },
+        );
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        setLoading(false);
+        setIsTypingSearch(false);
       }
-      setPagination(
-        data?.pagination || {
-          currentPage: 1,
-          totalPages: 1,
-          totalVoices: 0,
-          hasNextPage: false,
-          hasPrevPage: false,
-        },
-      );
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [currentPage, selectedLanguage, debouncedSearchQuery],
+  );
 
-  // Debounce search query
+  // Handle search debouncing without clearing voices immediately
   useEffect(() => {
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
 
+    // Only set typing state if there's a difference between current and debounced
+    if (searchQuery !== debouncedSearchQuery) {
+      setIsTypingSearch(true);
+    }
+
     searchTimeoutRef.current = setTimeout(() => {
       setDebouncedSearchQuery(searchQuery);
+      // Reset current fetch ref when search changes to allow new fetch
+      currentFetchRef.current = null;
     }, DEFAULT_VALUES.SEARCH_DEBOUNCE_DELAY);
 
     return () => {
@@ -95,22 +168,31 @@ export const useVoices = () => {
         clearTimeout(searchTimeoutRef.current);
       }
     };
-  }, [searchQuery]);
+  }, [searchQuery, debouncedSearchQuery]);
 
+  // Fetch voices when dependencies change
   useEffect(() => {
-    fetchVoices();
-  }, [currentPage, selectedLanguage, debouncedSearchQuery]);
+    fetchVoices(true); // Reset voices for new search/filter
+  }, [selectedLanguage, debouncedSearchQuery]);
+
+  // Fetch more voices when page changes (for pagination)
+  useEffect(() => {
+    if (currentPage > 1) {
+      fetchVoices(false); // Don't reset voices for pagination
+    }
+  }, [currentPage]);
 
   const handleLanguageChange = (language: string) => {
     setSelectedLanguage(language);
-    setCurrentPage(1); // Reset to first page when language changes
-    setVoices([]); // Clear existing voices
+    setCurrentPage(1);
+    currentFetchRef.current = null; // Reset fetch ref
+    clearVoiceCache(); // Clear cache to force fresh data
   };
 
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
-    setCurrentPage(1); // Reset to first page when search changes
-    setVoices([]); // Clear existing voices
+    setCurrentPage(1);
+    currentFetchRef.current = null; // Reset fetch ref
   };
 
   const handlePageChange = (page: number) => {
@@ -125,9 +207,15 @@ export const useVoices = () => {
     currentPage,
     selectedLanguage,
     searchQuery,
+    debouncedSearchQuery,
+    isSearching,
     handleLanguageChange,
     handleSearchChange,
     handlePageChange,
-    refetch: fetchVoices,
+    refetch: () => {
+      currentFetchRef.current = null;
+      clearVoiceCache();
+      fetchVoices(true);
+    },
   };
 };
