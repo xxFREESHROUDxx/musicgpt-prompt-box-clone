@@ -72,7 +72,7 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
           {
             "right-1/2 w-full translate-x-1/2": align === "center",
             "left-0": align === "left",
-            "right-0": align === "right",
+            "right-0 sm:right-10 ": align === "right",
           },
           isVisible
             ? "translate-y-0 scale-100 opacity-100"

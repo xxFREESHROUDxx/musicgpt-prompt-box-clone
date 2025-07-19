@@ -18,8 +18,8 @@ interface TextToSpeechFormProps {
 // Skeleton component for loading state
 const VoiceSkeleton = () => (
   <div className="flex flex-col items-center gap-2">
-    <div className="animate-pulse h-12 w-12 rounded-full bg-neutral-hover"></div>
-    <div className="animate-pulse h-3 w-16 rounded bg-neutral-hover"></div>
+    <div className="h-12 w-12 animate-pulse rounded-full bg-neutral-hover"></div>
+    <div className="h-3 w-16 animate-pulse rounded bg-neutral-hover"></div>
   </div>
 );
 
@@ -66,7 +66,7 @@ export const TextToSpeechForm: FC<TextToSpeechFormProps> = ({
 
   return (
     <div className="flex h-full w-full flex-col justify-between gap-6 p-6 pb-0 sm:flex-row">
-      <div className="flex min-w-0 flex-1 flex-col gap-6">
+      <div className="flex min-w-0 flex-1 flex-col gap-6 max-sm:pb-20">
         <div className="flex gap-3">
           <div className="relative flex w-full">
             <input
@@ -114,7 +114,7 @@ export const TextToSpeechForm: FC<TextToSpeechFormProps> = ({
                 {Array.from({ length: 3 })?.map((_, index) => (
                   <div
                     key={index}
-                    className="animate-bounce h-2 w-2 rounded-full bg-neutral-light"
+                    className="h-2 w-2 animate-bounce rounded-full bg-neutral-light"
                     style={{ animationDelay: `${index * 0.1}s` }}
                   />
                 ))}
