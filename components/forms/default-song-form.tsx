@@ -19,15 +19,18 @@ export const DefaultSongForm: FC<DefaultSongFormProps> = ({
   onLyricsChange,
 }) => {
   return (
-    <div className="flex h-full flex-col overflow-hidden px-0">
-      <div className="max-h-24 min-h-24">
+    <div className="flex flex-col px-5 pt-5">
+      <div>
         <Textarea
           name="description"
           id="description"
           placeholder={FORM_PLACEHOLDERS.SONG_DESCRIPTION}
           value={prompt}
           onChange={onPromptChange}
-          className="h-full min-h-20 resize-none"
+          autoResize={true}
+          minHeight={64}
+          maxHeight={120}
+          className="p-0"
         />
       </div>
 
@@ -40,7 +43,10 @@ export const DefaultSongForm: FC<DefaultSongFormProps> = ({
               placeholder={FORM_PLACEHOLDERS.LYRICS}
               value={lyrics}
               onChange={onLyricsChange}
-              className="max-h-32 min-h-20 resize-none pt-0"
+              autoResize={true}
+              minHeight={64}
+              maxHeight={120}
+              className="p-0"
             />
           </div>
         </div>

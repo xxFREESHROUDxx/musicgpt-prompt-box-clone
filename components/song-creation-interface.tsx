@@ -48,12 +48,6 @@ const SongCreationInterface: FC = () => {
 
   const isTextToSpeech = selectedTool === "Text to Speech";
 
-  const getFormHeightClass = () => {
-    if (isTextToSpeech) return "h-[280px]";
-    if (activeMode === "lyrics") return "h-[230px]";
-    return "h-[150px]";
-  };
-
   return (
     <div className="w-full">
       <div className="mb-6 text-center">
@@ -71,53 +65,45 @@ const SongCreationInterface: FC = () => {
       </div>
 
       {/* Form Container */}
-      <div className="relative w-full rounded-[27px] bg-neutral-base/80 shadow-lg backdrop-blur-sm transition-all duration-500 ease-in-out">
-        <form
-          onSubmit={handleFormSubmit}
-          className={twclsx(
-            "w-full overflow-hidden transition-all duration-500 ease-in-out",
-            getFormHeightClass(),
-          )}
-        >
-          <div className="relative h-full pb-16 transition-all duration-500 ease-in-out">
+      <div className="group/PromptConfigurator relative z-10 w-full rounded-[27px] bg-neutral-base/80 shadow-lg backdrop-blur-sm transition duration-200">
+        <form onSubmit={handleFormSubmit} className="overflow-hidden pb-[50px]">
+          <div className="relative min-h-0 transition-all duration-500 ease-in-out">
             <div
-              className={twclsx(
-                "absolute inset-0 transition-all duration-500 ease-in-out",
-                {
-                  "translate-x-0 opacity-100": isTextToSpeech,
-                  "pointer-events-none -translate-x-full opacity-0":
-                    !isTextToSpeech,
-                },
-              )}
+              className={twclsx("transition-all duration-500 ease-in-out", {
+                "translate-x-0 opacity-100": isTextToSpeech,
+                "pointer-events-none absolute inset-0 -translate-x-full opacity-0":
+                  !isTextToSpeech,
+              })}
             >
-              <TextToSpeechForm
-                prompt={prompt}
-                onPromptChange={handlePromptChange}
-                selectedVoice={selectedVoice}
-                onVoiceSelect={handleVoiceSelect}
-              />
+              {isTextToSpeech && (
+                <TextToSpeechForm
+                  prompt={prompt}
+                  onPromptChange={handlePromptChange}
+                  selectedVoice={selectedVoice}
+                  onVoiceSelect={handleVoiceSelect}
+                />
+              )}
             </div>
             <div
-              className={twclsx(
-                "absolute inset-0 transition-all duration-500 ease-in-out",
-                {
-                  "translate-x-0 opacity-100": !isTextToSpeech,
-                  "pointer-events-none translate-x-full opacity-0":
-                    isTextToSpeech,
-                },
-              )}
+              className={twclsx("transition-all duration-500 ease-in-out", {
+                "translate-x-0 opacity-100": !isTextToSpeech,
+                "pointer-events-none absolute inset-0 translate-x-full opacity-0":
+                  isTextToSpeech,
+              })}
             >
-              <DefaultSongForm
-                prompt={prompt}
-                lyrics={lyrics}
-                activeMode={activeMode}
-                onPromptChange={handlePromptChange}
-                onLyricsChange={handleLyricsChange}
-              />
+              {!isTextToSpeech && (
+                <DefaultSongForm
+                  prompt={prompt}
+                  lyrics={lyrics}
+                  activeMode={activeMode}
+                  onPromptChange={handlePromptChange}
+                  onLyricsChange={handleLyricsChange}
+                />
+              )}
             </div>
           </div>
 
-          <div className="transition-all duration-300 ease-in-out">
+          <div className="absolute bottom-3 left-3 right-3">
             <FormActions
               activeMode={activeMode}
               selectedTool={selectedTool}
