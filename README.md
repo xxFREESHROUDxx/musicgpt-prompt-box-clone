@@ -1,55 +1,98 @@
-# MusicGPT
+# MusicGPT Clone - AI Song Creation Platform
 
-A search bar clone of MusicGPT.
+A modern web application that replicates MusicGPT's interface and functionality,
+featuring AI-powered song creation with multiple modes and text-to-speech
+capabilities.
 
-## 🚀 Features
+## 🎯 Project Overview
+
+This project is a full-stack clone of MusicGPT built with modern web
+technologies. It demonstrates proficiency in React development, API design,
+state management, and user experience optimization.
+
+## ✨ Key Features
 
 ### Core Functionality
 
-- **Multi-Mode Song Creation**: Support for "Create anything", "Instrumental",
-  and "Lyrics" modes
-- **Text-to-Speech Integration**: Voice selection with 30+ real actor voices
-  from English, Nepali, and Indian backgrounds
-- **Dynamic Form Transitions**: Smooth animations between different form modes
-- **Real-time Search & Filtering**: Search voices by name and filter by language
-- **Infinite Scroll Pagination**: Load more voices as you scroll
+- **Multi-Mode Song Creation**: Three distinct creation modes:
+  - **Create Anything**: General song creation with text prompts
+  - **Instrumental**: Generate instrumental music without lyrics
+  - **Lyrics**: Create songs with custom lyrics input
+- **Text-to-Speech Integration**: Advanced voice selection system with 30+
+  celebrity voices
+- **File Upload Support**: Audio file attachment for reference tracks
+- **Real-time Form Validation**: Instant feedback and error handling
+
+### Voice Selection System
+
+- **30+ Voice Options**: Celebrity voices from English, Nepali, and Indian
+  backgrounds
+- **Smart Search**: Real-time voice search with debounced input (300ms delay)
+- **Language Filtering**: Filter voices by language (All, English, Nepali,
+  Indian)
+- **Infinite Scroll Pagination**: Efficient loading of voices (8 per page)
+- **Voice Preview**: Visual avatars with selection states
+
+### User Experience
+
+- **Smooth Animations**: Framer Motion powered transitions between forms
 - **Responsive Design**: Mobile-first approach with adaptive layouts
+- **Loading States**: Skeleton loaders and progress indicators
+- **Dynamic Form Transitions**: Seamless switching between creation modes
+- **Keyboard Shortcuts**: Ctrl+Enter for quick form submission
 
-### Technical Features
+### Technical Highlights
 
-- **Backend API Integration**: RESTful API endpoints for voice fetching and song
-  generation
-- **Loading States**: Skeleton loading and smooth transitions
-- **Form Validation**: Real-time validation with proper error handling
-- **State Management**: Custom hooks for clean state management
-- **TypeScript**: Full type safety throughout the application
-- **Docker Support**: Complete containerization for development and production
-- **Code Quality**: ESLint, Prettier, Husky, and commitlint for code standards
+- **Type Safety**: Full TypeScript implementation throughout
+- **Custom Hooks**: Clean separation of business logic (`useSongGeneration`,
+  `useVoices`)
+- **State Management**: Intelligent state preservation when switching between
+  modes
+- **API Integration**: RESTful endpoints for voice fetching and song generation
+- **Optimized Performance**: Debounced search, caching, and efficient re-renders
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js 14, React 18, TypeScript
-- **Styling**: Tailwind CSS, Custom CSS animations
-- **State Management**: React Hooks, Custom hooks
-- **API**: Next.js API Routes
-- **Containerization**: Docker, Docker Compose
-- **Package Manager**: Yarn
-- **Development**: ESLint, Prettier, Husky, commitlint
+**Frontend**
 
-## 📦 Installation & Setup
+- Next.js 14 (App Router)
+- React 18 with TypeScript
+- Tailwind CSS for styling
+- Framer Motion for animations
+- Lucide React for icons
+
+**Backend**
+
+- Next.js API Routes
+- TypeScript for type safety
+- JSON response handling
+
+**Development Tools**
+
+- ESLint & Prettier for code quality
+- Husky for Git hooks
+- Commitlint for conventional commits
+- Docker for containerization
+
+**Package Management**
+
+- Yarn for dependency management
+- Optimized dependency resolution
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
 - Node.js 18+
-- Yarn
-- Docker (optional)
+- Yarn package manager
+- Git
 
-### Local Development
+### Installation
 
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
+   git clone <your-repo-url>
    cd musicgpt-prompt-box-clone
    ```
 
@@ -63,257 +106,171 @@ A search bar clone of MusicGPT.
 
    ```bash
    cp .env.example .env.local
-   # Edit .env.local with your configuration
+   # Configure your environment variables
    ```
 
-4. **Run the development server**
+4. **Start development server**
 
    ```bash
    yarn dev
    ```
 
-5. **Open your browser** Navigate to
+5. **Open application** Navigate to
    [http://localhost:3000](http://localhost:3000)
 
 ### Docker Setup
 
-#### Production Build
+**Development**
 
 ```bash
-# Build and run production container
-docker-compose up --build
-
-# Or run in detached mode
-docker-compose up -d --build
-```
-
-#### Development Build
-
-```bash
-# Run development container with hot reload
 docker-compose --profile dev up --build
 ```
 
-#### Individual Docker Commands
+**Production**
 
 ```bash
-# Build production image
-docker build -t musicgpt --target runner .
-
-# Build development image
-docker build -t musicgpt-dev --target development .
-
-# Run production container
-docker run -p 3000:3000 musicgpt
-
-# Run development container with volumes
-docker run -p 3000:3000 -v $(pwd):/app -v /app/node_modules -v /app/.next musicgpt-dev
+docker-compose up --build
 ```
 
-## 🏗️ Project Structure
+## 📱 Usage
+
+### Song Creation Modes
+
+1. **Create Anything Mode**
+   - Enter a text description of your desired song
+   - Optionally attach an audio file for reference
+   - Choose between instrumental or lyrics modes
+
+2. **Text-to-Speech Mode**
+   - Browse and search through 30+ celebrity voices
+   - Filter by language (English/Nepali/Indian)
+   - Enter text to be spoken in the selected voice
+   - Real-time voice selection with visual feedback
+
+3. **Advanced Features**
+   - **Mode Switching**: Seamlessly switch between creation modes
+   - **State Preservation**: Form data is intelligently preserved when switching
+     tools
+   - **File Management**: Upload and remove audio files with validation
+   - **Keyboard Shortcuts**: Use Ctrl+Enter for quick submission
+
+## 🏗️ Project Architecture
 
 ```
-├── app/                          # Next.js 14+ App Router
-│   ├── api/                      # API Routes
-│   │   ├── generate-song/        # Song generation endpoint
-│   │   └── voices/              # Voice fetching endpoint
-│   ├── fonts/                   # Font files
-│   ├── layout.tsx               # Root layout
-│   └── page.tsx                 # Home page
-│
-├── components/                   # React Components
-│   ├── common/                  # Shared components
-│   │   ├── button/             # Button components
-│   │   │   ├── button.tsx      # Main button component
-│   │   │   └── index.ts        # Button exports
-│   │   ├── dropdown/           # Dropdown components
-│   │   │   ├── dropdown.tsx    # Main dropdown component
-│   │   │   ├── dropdown-children.tsx # Dropdown children
-│   │   │   ├── language-dropdown.tsx # Language filter dropdown
-│   │   │   ├── tools-dropdown.tsx # Tools selection dropdown
-│   │   │   └── index.ts        # Dropdown exports
-│   │   ├── input/              # Input components
-│   │   │   └── textarea.tsx    # Reusable textarea
-│   │   ├── animated-form-wrapper.tsx # Form animation wrapper
-│   │   ├── badge.tsx           # Badge component
-│   │   ├── form-actions.tsx    # Form action buttons
-│   │   ├── gradient-background.tsx # Animated background
-│   │   └── voice-avatar.tsx    # Voice selection avatar
-│   ├── forms/                   # Form components
-│   │   ├── default-song-form.tsx # Main song creation form
-│   │   └── text-to-speech-form.tsx # TTS form with voice selection
-│   └── search-box.tsx          # Main search container
-├── hooks/                       # Custom React Hooks
-│   ├── useSongGeneration.ts    # Song generation logic
-│   └── useVoices.ts            # Voice fetching logic
-├── constants/                   # Application constants
-│   ├── index.ts                # Main constants export
-│   ├── routes.ts               # Route definitions
-│   └── static-contents.ts      # Static content data
-├── configs/                     # Configuration files
-│   ├── app.config.ts           # App configuration
-│   └── font-config.ts          # Font configuration
-├── utils/                       # Utility functions
-│   ├── twclsx.ts               # Tailwind CSS class utilities
-│   ├── use-navigation-event.ts # Navigation event hooks
-│   ├── use-outside-click-event.ts # Outside click detection
-│   └── use-visibility.ts       # Visibility detection
-├── assets/                      # Static assets
-│   └── globals.css             # Global styles
-├── docs/                        # Documentation
-│   ├── COMMITLINT.md           # Commit message guidelines
-│   └── PULL_REQUEST_TEMPLATE.md # PR template
-├── public/                      # Public static files
-├── .husky/                      # Git hooks configuration
-├── Dockerfile                   # Unified Dockerfile (dev + prod)
-├── docker-compose.yml          # Docker Compose configuration
-├── next.config.mjs             # Next.js configuration
-├── tailwind.config.ts          # Tailwind CSS configuration
-├── tsconfig.json               # TypeScript configuration
-├── package.json                # Dependencies and scripts
-└── README.md                   # This file
+├── app/                     # Next.js App Router
+│   ├── api/                 # API endpoints
+│   │   ├── voices/          # Voice fetching with pagination
+│   │   └── generate-song/   # Song generation endpoint
+│   ├── layout.tsx           # Root layout with gradient background
+│   └── page.tsx             # Main application page
+├── components/              # React components
+│   ├── forms/               # Form components
+│   ├── common/              # Reusable UI components
+│   └── song-creation-interface.tsx # Main interface
+├── hooks/                   # Custom React hooks
+│   ├── useSongGeneration.ts # Song creation logic
+│   └── useVoices.ts         # Voice fetching and management
+├── constants/               # Application constants and data
+├── utils/                   # Utility functions
+└── types/                   # TypeScript type definitions
 ```
 
 ## 🎨 Design Decisions
 
-### Architecture Patterns
-
-1. **Component Composition**: Modular, reusable components with clear separation
-   of concerns
-2. **Custom Hooks**: Business logic separated into custom hooks for reusability
-3. **Constants Management**: Centralized configuration for easy maintenance
-4. **Type Safety**: Full TypeScript implementation for better development
-   experience
-
-### UI/UX Decisions
-
-1. **Dark Theme**: Purple gradient background with dark UI for modern aesthetics
-   that matches MusicGPT's theme
-2. **Smooth Animations**: CSS transitions and keyframe animations for
-   professional feel
-3. **Responsive Design**: Mobile-first approach with adaptive layouts
-4. **Loading States**: Skeleton loading and smooth transitions for better UX
-5. **Form Validation**: Real-time validation with visual feedback
-
 ### Performance Optimizations
 
-1. **Debounced Search**: 300ms delay to prevent excessive API calls
-2. **Infinite Scroll**: Efficient pagination with intersection observer
-3. **Image Optimization**: Next.js built-in image optimization
-4. **Code Splitting**: Automatic code splitting by Next.js
-5. **Docker Optimization**: Multi-stage builds for smaller production images
+- **Debounced Search**: 300ms delay prevents excessive API calls
+- **Pagination**: Efficient loading with intersection observer
+- **State Caching**: Intelligent caching of voice data
+- **Optimistic Updates**: Immediate UI feedback for better UX
+
+### User Experience
+
+- **Dark Theme**: Modern purple gradient matching MusicGPT aesthetic
+- **Smooth Transitions**: 500ms form transitions for professional feel
+- **Loading States**: Skeleton loaders during data fetching
+- **Error Handling**: Comprehensive error states with user-friendly messages
+
+### Code Quality
+
+- **TypeScript**: Full type safety prevents runtime errors
+- **Component Composition**: Modular, reusable components
+- **Custom Hooks**: Business logic separation for maintainability
+- **Consistent Styling**: Tailwind CSS with custom design system
 
 ## 🔧 API Endpoints
 
-### GET /api/voices
+### GET `/api/voices`
 
-Fetch paginated list of voices with search and filtering.
+Fetches paginated voice data with search and filtering capabilities.
 
 **Query Parameters:**
 
 - `page`: Page number (default: 1)
 - `limit`: Items per page (default: 8)
-- `language`: Filter by language (all, english, nepali, indian)
+- `language`: Filter by language (all/english/nepali/indian)
 - `search`: Search by voice name
 
-**Response:**
+### POST `/api/generate-song`
 
-```json
-{
-  "voices": [
-    {
-      "name": "Emma Watson",
-      "language": "english"
-    }
-  ],
-  "pagination": {
-    "currentPage": 1,
-    "totalPages": 4,
-    "totalVoices": 30,
-    "hasNextPage": true,
-    "hasPrevPage": false
-  }
-}
-```
-
-### POST /api/generate-song
-
-Submit song generation request.
+Processes song generation requests with comprehensive logging.
 
 **Request Body:**
 
 ```json
 {
-  "prompt": "Create a happy song about summer",
-  "type": "text to speech: Emma Watson",
-  "lyrics": "Optional lyrics content"
+  "prompt": "Song description",
+  "type": "create anything | instrumental | lyrics | text to speech: Voice Name",
+  "lyrics": "Optional lyrics content",
+  "fileSelected": "Optional audio file name"
 }
 ```
 
-**Response:**
+## 🧪 Testing & Quality
 
-```json
-{
-  "success": true,
-  "message": "Song generation request received",
-  "data": {
-    "id": "song_1234567890",
-    "type": "text to speech: Emma Watson",
-    "prompt": "Create a happy song about summer",
-    "status": "processing"
-  }
-}
-```
+### Manual Testing Coverage
 
-## 🎭 Animation System
+- ✅ Voice search and filtering functionality
+- ✅ Form mode switching and state preservation
+- ✅ Infinite scroll pagination
+- ✅ File upload and validation
+- ✅ Responsive design across devices
+- ✅ Error handling and edge cases
+- ✅ API integration and data flow
 
-### Gradient Background Animation
+### Code Quality Standards
 
-- **4-second cycle** with smooth color transitions
-- **Purple to black gradient** that animates from top to center and back
-- **CSS keyframes** for optimal performance
+- ESLint configuration with strict rules
+- Prettier for consistent code formatting
+- Husky pre-commit hooks
+- Conventional commit messages
+- TypeScript strict mode enabled
 
-### Form Transitions
+## 📊 Performance Metrics
 
-- **Slide animations** between different form modes
-- **Opacity transitions** for smooth fade effects
-- **Height animations** for dynamic form sizing
+- **Initial Load Time**: Optimized with Next.js code splitting
+- **Search Responsiveness**: 300ms debounced search for smooth UX
+- **Voice Loading**: Efficient pagination with skeleton states
+- **Form Transitions**: 500ms smooth animations
+- **Bundle Size**: Optimized with tree shaking and dynamic imports
 
-### Loading States
+## 🔍 Browser Compatibility
 
-- **Skeleton loading** for initial voice loading
-- **Bouncing dots** for pagination loading
-- **Smooth transitions** for all state changes
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
 
-## 🧪 Testing
-
-### Manual Testing Checklist
-
-- [x] Voice search functionality
-- [x] Language filtering
-- [x] Infinite scroll pagination
-- [x] Form mode switching
-- [x] Voice selection
-- [x] Form submission
-- [x] Responsive design
-- [x] Loading states
-- [x] Error handling
-- [x] Backend Logging Data
-
-### Available Scripts
+## 📝 Development Scripts
 
 ```bash
-# Development
-yarn dev              # Start development server
-yarn build            # Build for production
-yarn start            # Start production server
-yarn lint             # Run ESLint
+yarn dev          # Start development server
+yarn build        # Build for production
+yarn start        # Start production server
+yarn lint         # Run ESLint
+yarn type-check   # TypeScript type checking
 ```
 
-### Automated Testing (Future)
+---
 
-- Unit tests with Jest
-- Integration tests with Playwright
-- E2E tests for critical user flows
-
-**By Baibhav KC ❤️**
+**Developed by Baibhav KC** | Modern React Application for AI Song Creation
