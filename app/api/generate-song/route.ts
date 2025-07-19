@@ -20,9 +20,6 @@ export async function POST(request: NextRequest) {
     // Simulate api processing time
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // TODO: Here you would implement the actual song generation logic
-    // For now, we'll return a success response
-
     return NextResponse.json({
       success: true,
       message: "Song generation request received",

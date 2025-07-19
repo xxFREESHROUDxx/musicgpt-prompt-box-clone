@@ -26,7 +26,6 @@ export const DefaultSongForm: FC<DefaultSongFormProps> = ({
 }) => {
   return (
     <div className="relative flex flex-col px-5 pt-5">
-     
       <AnimatePresence mode="wait">
         {selectedFile && onFileRemove && (
           <motion.div
@@ -54,7 +53,7 @@ export const DefaultSongForm: FC<DefaultSongFormProps> = ({
           autoResize={true}
           minHeight={64}
           maxHeight={120}
-          className="p-0"
+          className="!px-0 pt-0"
         />
       </div>
 
@@ -105,7 +104,7 @@ export const DefaultSongForm: FC<DefaultSongFormProps> = ({
                 autoResize={true}
                 minHeight={64}
                 maxHeight={120}
-                className="p-0"
+                className="!px-0 pt-0"
               />
             </motion.div>
           </motion.div>
