@@ -15,8 +15,8 @@ export const GradientBackground: FC = () => {
         animate={{
           background: [
             "linear-gradient(to bottom, #16191C 0%, #16191C 50%, #16191C 100%)",
-            "linear-gradient(to bottom, #4A0B4A 0%, #4A0B4A 50%, #16191C 100%)",
-            "linear-gradient(to bottom, #4A0B4A 0%, #4A0B4A 50%, #16191C 100%)",
+            "linear-gradient(to bottom, #4A0B4A 0%, #4A0B4A 5%, #16191C 100%)",
+            "linear-gradient(to bottom, #4A0B4A 0%, #4A0B4A 5%, #16191C 100%)",
             "linear-gradient(to bottom, #16191C 0%, #16191C 50%, #16191C 100%)",
           ],
         }}

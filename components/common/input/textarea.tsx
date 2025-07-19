@@ -1,5 +1,5 @@
 import { twclsx } from "@/utils/twclsx";
-import { ChangeEvent, FC, useEffect, useRef } from "react";
+import { ChangeEvent, FC, useLayoutEffect, useRef } from "react";
 
 interface TextareaProps {
   name?: string;
@@ -26,7 +26,8 @@ export const Textarea: FC<TextareaProps> = ({
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  useEffect(() => {
+  // Use useLayoutEffect to calculate height before paint to prevent visual jumps
+  useLayoutEffect(() => {
     if (autoResize && textareaRef.current) {
       const textarea = textareaRef.current;
       // Reset height to auto to get the correct scrollHeight
@@ -49,7 +50,6 @@ export const Textarea: FC<TextareaProps> = ({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      style={autoResize ? { height: `${minHeight}px` } : undefined}
       className={twclsx(
         "block w-full resize-none bg-transparent p-5 text-left text-base leading-relaxed text-pure-white outline-none scrollbar-hide placeholder:text-neutral-400",
         autoResize ? "" : "min-h-[120px]",

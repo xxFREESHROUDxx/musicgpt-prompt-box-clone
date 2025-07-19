@@ -7,6 +7,7 @@ interface VoiceAvatarProps {
   onClick?: () => void;
   className?: string;
   hideName?: boolean;
+  size?: number;
 }
 
 export const VoiceAvatar: FC<VoiceAvatarProps> = ({
@@ -15,6 +16,7 @@ export const VoiceAvatar: FC<VoiceAvatarProps> = ({
   onClick,
   className = "",
   hideName = false,
+  size,
 }) => {
   const firstLetter = name.charAt(0).toUpperCase();
 
@@ -31,6 +33,7 @@ export const VoiceAvatar: FC<VoiceAvatarProps> = ({
       onClick={onClick}
     >
       <div
+        style={{ width: size, height: size }}
         className={twclsx(
           "flex h-12 w-12 items-center justify-center rounded-full border-2 border-transparent text-xl font-medium transition-all duration-200",
           {

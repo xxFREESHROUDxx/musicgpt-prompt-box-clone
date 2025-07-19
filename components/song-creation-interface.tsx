@@ -14,6 +14,7 @@ const SongCreationInterface: FC = () => {
     lyrics,
     selectedTool,
     selectedVoice,
+    selectedFile,
     isLoading,
     isButtonEnabled,
     handleModeToggle,
@@ -21,6 +22,8 @@ const SongCreationInterface: FC = () => {
     handleLyricsChange,
     handleToolChange,
     handleVoiceSelect,
+    handleFileChange,
+    handleFileRemove,
     generateSong,
   } = useSongGeneration();
 
@@ -64,7 +67,6 @@ const SongCreationInterface: FC = () => {
         )}
       </div>
 
-      {/* Form Container */}
       <div className="group/PromptConfigurator relative z-10 w-full rounded-[27px] bg-neutral-base/80 shadow-lg backdrop-blur-sm transition duration-200">
         <form onSubmit={handleFormSubmit} className="overflow-hidden pb-[50px]">
           <div className="relative min-h-0 transition-all duration-500 ease-in-out">
@@ -96,8 +98,10 @@ const SongCreationInterface: FC = () => {
                   prompt={prompt}
                   lyrics={lyrics}
                   activeMode={activeMode}
+                  selectedFile={selectedFile}
                   onPromptChange={handlePromptChange}
                   onLyricsChange={handleLyricsChange}
+                  onFileRemove={handleFileRemove}
                 />
               )}
             </div>
@@ -112,13 +116,13 @@ const SongCreationInterface: FC = () => {
               showModeButtons={!isTextToSpeech}
               onModeToggle={handleModeToggle}
               onToolChange={handleToolChange}
+              onFileChange={handleFileChange}
               onSubmit={generateSong}
             />
           </div>
         </form>
       </div>
 
-      {/* Bottom Subtitle for Text-to-Speech */}
       {isTextToSpeech && (
         <div className="mt-4 text-center">
           <p className="text-sm text-neutral-sub-text">

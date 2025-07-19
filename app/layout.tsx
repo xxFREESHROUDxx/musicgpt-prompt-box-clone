@@ -34,10 +34,8 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body className={`${geistSans.variable} font-sans`}>
-        <ToastContainer>
-          <GradientBackground />
-          {children}
-        </ToastContainer>
+        <GradientBackground />
+        <ToastContainer>{children}</ToastContainer>
       </body>
     </html>
   );

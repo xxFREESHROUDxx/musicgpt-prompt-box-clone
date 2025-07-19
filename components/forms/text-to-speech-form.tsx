@@ -66,7 +66,6 @@ export const TextToSpeechForm: FC<TextToSpeechFormProps> = ({
     onVoiceSelect?.(voice);
   };
 
-  // Show different states based on loading and data
   const renderVoiceContent = () => {
     // Show skeleton during initial load or when search is being typed
     if (loading && currentPage === 1) {
@@ -82,8 +81,8 @@ export const TextToSpeechForm: FC<TextToSpeechFormProps> = ({
           </div>
           {searchQuery ? (
             <div className="text-xs text-neutral-sub-text">
-              No voices match "{searchQuery}". Try a different search term or
-              clear the filter.
+              No voices match &quot;{searchQuery}&quot;. Try a different search
+              term or clear the filter.
             </div>
           ) : selectedLanguage !== "all" ? (
             <div className="text-xs text-neutral-sub-text">
@@ -165,7 +164,7 @@ export const TextToSpeechForm: FC<TextToSpeechFormProps> = ({
         </div>
       </div>
 
-      <div className="flex mt-1 w-full flex-col gap-6 sm:w-1/3">
+      <div className="mt-1 flex w-full flex-col gap-6 sm:w-1/3">
         <div className="flex items-center gap-2">
           {selectedVoice ? (
             <>
@@ -173,6 +172,7 @@ export const TextToSpeechForm: FC<TextToSpeechFormProps> = ({
                 name={selectedVoice?.name || "Default Voice"}
                 isSelected={true}
                 hideName
+                size={24}
                 className="flex-row gap-2"
               />
               <span className="text-body-base text-neutral-light">

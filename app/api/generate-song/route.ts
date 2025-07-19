@@ -4,6 +4,7 @@ export interface SongGenerationRequest {
   prompt: string;
   type?: string;
   lyrics?: string;
+  fileSelected?: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -30,6 +31,7 @@ export async function POST(request: NextRequest) {
         type: body.type,
         prompt: body.prompt,
         lyrics: body.lyrics,
+        fileSelected: body.fileSelected,
         status: "processing",
       },
     });

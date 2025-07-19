@@ -10,6 +10,7 @@ export interface SongGenerationRequest {
   prompt: string;
   type?: string;
   lyrics?: string;
+  fileSelected?: string;
 }
 
 export const useSongGeneration = () => {
@@ -19,6 +20,7 @@ export const useSongGeneration = () => {
   const [selectedTool, setSelectedTool] = useState<Tool>("Create anything");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedVoice, setSelectedVoice] = useState<Voice | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { fireToast } = useToast();
 
   // Store previous input values for restoration
@@ -26,6 +28,7 @@ export const useSongGeneration = () => {
   const [previousLyrics, setPreviousLyrics] = useState("");
   const [previousMode, setPreviousMode] = useState<SongMode>(null);
   const [previousVoice, setPreviousVoice] = useState<Voice | null>(null);
+  const [previousFile, setPreviousFile] = useState<File | null>(null);
 
   const handleModeToggle = (mode: SongMode) => {
     setActiveMode((prev) => (prev === mode ? null : mode));
@@ -42,6 +45,22 @@ export const useSongGeneration = () => {
     setLyrics(e.target.value);
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate that it's an audio file
+      if (!file.type.startsWith("audio/")) {
+        fireToast("error", 3000, "Please select an audio file only.");
+        return;
+      }
+      setSelectedFile(file);
+    }
+  };
+
+  const handleFileRemove = () => {
+    setSelectedFile(null);
+  };
+
   const handleToolChange = (tool: Tool) => {
     if (tool === "Text to Speech") {
       // Store current values before clearing
@@ -49,18 +68,21 @@ export const useSongGeneration = () => {
       setPreviousLyrics(lyrics);
       setPreviousMode(activeMode);
       setPreviousVoice(selectedVoice);
+      setPreviousFile(selectedFile);
 
       // Clear inputs for text-to-speech
       setPrompt("");
       setLyrics("");
       setActiveMode(null);
       setSelectedVoice(null);
+      setSelectedFile(null);
     } else {
       // Restore previous values when switching back to create anything
       setPrompt(previousPrompt);
       setLyrics(previousLyrics);
       setActiveMode(previousMode);
       setSelectedVoice(previousVoice);
+      setSelectedFile(previousFile);
     }
 
     setSelectedTool(tool);
@@ -84,6 +106,11 @@ export const useSongGeneration = () => {
         prompt: prompt.trim(),
         type: "create anything",
       };
+
+      // Add file information if a file is selected
+      if (selectedFile) {
+        requestBody.fileSelected = selectedFile.name;
+      }
 
       // Determine the type based on selected tool and mode
       if (selectedTool === "Text to Speech") {
@@ -125,10 +152,12 @@ export const useSongGeneration = () => {
       setActiveMode(null);
       setSelectedTool("Create anything");
       setSelectedVoice(null);
+      setSelectedFile(null);
       setPreviousPrompt("");
       setPreviousLyrics("");
       setPreviousMode(null);
       setPreviousVoice(null);
+      setPreviousFile(null);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error("Error generating song:", error);
@@ -144,6 +173,7 @@ export const useSongGeneration = () => {
     lyrics,
     selectedTool,
     selectedVoice,
+    selectedFile,
     isLoading,
     isButtonEnabled: isButtonEnabled(),
     handleModeToggle,
@@ -151,6 +181,8 @@ export const useSongGeneration = () => {
     handleLyricsChange,
     handleToolChange,
     handleVoiceSelect,
+    handleFileChange,
+    handleFileRemove,
     generateSong,
   };
 };
