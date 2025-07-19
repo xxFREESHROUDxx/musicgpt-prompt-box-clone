@@ -66,7 +66,7 @@ export const TextToSpeechForm: FC<TextToSpeechFormProps> = ({
 
   return (
     <div className="flex h-full w-full flex-col justify-between gap-6 p-6 pb-0 sm:flex-row">
-      <div className="flex min-w-0 flex-1 flex-col gap-6 max-sm:pb-20">
+      <div className="hidden min-w-0 flex-1 flex-col gap-6 sm:flex">
         <div className="flex gap-3">
           <div className="relative flex w-full">
             <input
@@ -124,7 +124,7 @@ export const TextToSpeechForm: FC<TextToSpeechFormProps> = ({
         </div>
       </div>
 
-      <div className="my-1 flex w-1/3 flex-col gap-6">
+      <div className="flex w-full flex-col gap-6 sm:w-1/3">
         <div className="flex items-center gap-2">
           {selectedVoice ? (
             <>

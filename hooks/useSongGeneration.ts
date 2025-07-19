@@ -69,9 +69,6 @@ export const useSongGeneration = () => {
   };
 
   const isButtonEnabled = () => {
-    if (selectedTool === "Text to Speech") {
-      return prompt.trim().length > 0 && selectedVoice !== null;
-    }
     return prompt.trim().length > 0;
   };
 
@@ -91,7 +88,7 @@ export const useSongGeneration = () => {
         if (selectedVoice?.name) {
           requestBody.type = `text to speech: ${selectedVoice.name}`;
         } else {
-          requestBody.type = "text to speech: default voice";
+          requestBody.type = "text to speech: Default Voice";
         }
       } else if (activeMode === "instrumental") {
         requestBody.type = "instrumental";
@@ -102,7 +99,7 @@ export const useSongGeneration = () => {
         }
       }
 
-      // Log the request body to frontend console
+      // eslint-disable-next-line no-console
       console.log("Frontend Request Body:", requestBody);
 
       // Make the actual API call to backend
@@ -117,20 +114,20 @@ export const useSongGeneration = () => {
       }
 
       const data = await response.json();
-      console.log("Backend Response:", data);
 
       // Clear all inputs after successful submission
       setPrompt("");
       setLyrics("");
       setActiveMode(null);
+      setSelectedTool("Create anything");
       setSelectedVoice(null);
       setPreviousPrompt("");
       setPreviousLyrics("");
       setPreviousMode(null);
       setPreviousVoice(null);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Error generating song:", error);
-      // Handle error - you might want to show a toast notification here
     } finally {
       setIsLoading(false);
     }
