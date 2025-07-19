@@ -84,7 +84,10 @@ export const FormActions: FC<FormActionsProps> = ({
           <div
             className={twclsx(
               "absolute inset-0 origin-center rounded-full bg-neutral-light transition-all duration-300 ease-in-out",
-              isButtonEnabled ? "scale-100" : "scale-0",
+              {
+                "scale-100": isButtonEnabled,
+                "scale-0": !isButtonEnabled,
+              },
             )}
           ></div>
           <ArrowRight

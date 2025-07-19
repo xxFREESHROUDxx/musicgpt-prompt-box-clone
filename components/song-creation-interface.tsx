@@ -5,6 +5,7 @@ import { useSongGeneration } from "@/hooks/useSongGeneration";
 import { FormActions } from "./common/form-actions";
 import { DefaultSongForm } from "./forms/default-song-form";
 import { TextToSpeechForm } from "./forms/text-to-speech-form";
+import { twclsx } from "@/utils/twclsx";
 
 const SongCreationInterface: FC = () => {
   const {
@@ -73,15 +74,21 @@ const SongCreationInterface: FC = () => {
       <div className="relative w-full rounded-[27px] bg-neutral-base/80 shadow-lg backdrop-blur-sm transition-all duration-500 ease-in-out">
         <form
           onSubmit={handleFormSubmit}
-          className={`w-full overflow-hidden transition-all duration-500 ease-in-out ${getFormHeightClass()}`}
+          className={twclsx(
+            "w-full overflow-hidden transition-all duration-500 ease-in-out",
+            getFormHeightClass(),
+          )}
         >
           <div className="relative h-full pb-16 transition-all duration-500 ease-in-out">
             <div
-              className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-                isTextToSpeech
-                  ? "translate-x-0 opacity-100"
-                  : "pointer-events-none -translate-x-full opacity-0"
-              }`}
+              className={twclsx(
+                "absolute inset-0 transition-all duration-500 ease-in-out",
+                {
+                  "translate-x-0 opacity-100": isTextToSpeech,
+                  "pointer-events-none -translate-x-full opacity-0":
+                    !isTextToSpeech,
+                },
+              )}
             >
               <TextToSpeechForm
                 prompt={prompt}
@@ -91,11 +98,14 @@ const SongCreationInterface: FC = () => {
               />
             </div>
             <div
-              className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-                !isTextToSpeech
-                  ? "translate-x-0 opacity-100"
-                  : "pointer-events-none translate-x-full opacity-0"
-              }`}
+              className={twclsx(
+                "absolute inset-0 transition-all duration-500 ease-in-out",
+                {
+                  "translate-x-0 opacity-100": !isTextToSpeech,
+                  "pointer-events-none translate-x-full opacity-0":
+                    isTextToSpeech,
+                },
+              )}
             >
               <DefaultSongForm
                 prompt={prompt}
