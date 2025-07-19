@@ -4,7 +4,7 @@ import Button from "./button/button";
 import { twclsx } from "@/utils/twclsx";
 import { SongMode, Tool } from "@/hooks/useSongGeneration";
 import { ToolsDropdown } from "./dropdown/tools-dropdown";
-import { FC, useRef } from "react";
+import { ChangeEvent, FC, useRef } from "react";
 
 interface FormActionsProps {
   activeMode: SongMode;
@@ -15,7 +15,7 @@ interface FormActionsProps {
   onModeToggle: (mode: SongMode) => void;
   onToolChange: (tool: Tool) => void;
   onSubmit: () => void;
-  onFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFileChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const FormActions: FC<FormActionsProps> = ({
