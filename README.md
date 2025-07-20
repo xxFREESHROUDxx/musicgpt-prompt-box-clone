@@ -86,6 +86,7 @@ state management, and user experience optimization.
 - Node.js 18+
 - Yarn package manager
 - Git
+- Docker (optional)
 
 ### Installation
 
@@ -118,19 +119,84 @@ state management, and user experience optimization.
 5. **Open application** Navigate to
    [http://localhost:3000](http://localhost:3000)
 
-### Docker Setup
+### 🐳 Docker Setup
 
-**Development**
+The project includes an optimized multi-stage Dockerfile that provides both
+development and production environments.
+
+#### Docker Architecture
+
+**Multi-Stage Build Process:**
+
+- **Base Stage**: Node.js 18 Alpine base image
+- **Dependencies Stage**: Installs production dependencies with frozen lockfile
+- **Builder Stage**: Builds the Next.js application with standalone output
+- **Runner Stage**: Optimized production runtime with minimal footprint
+- **Development Stage**: Full development environment with hot reload
+
+#### Key Docker Optimizations
+
+- **Multi-stage builds** for smaller production images
+- **Layer caching** for faster subsequent builds
+- **Non-root user** for security
+- **Standalone output** for reduced image size
+- **Alpine Linux** for minimal base image
+
+#### Quick Start Commands
+
+**Development Mode** (Hot reload, port 3001)
 
 ```bash
-docker-compose --profile dev up --build
+docker compose --profile dev up --build
 ```
 
-**Production**
+**Production Mode** (Optimized build, port 3000)
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
+
+#### Individual Docker Commands
+
+**Build Development Image**
+
+```bash
+docker compose build musicgpt-dev
+```
+
+**Build Production Image**
+
+```bash
+docker compose build musicgpt-app
+```
+
+**Run Development Container**
+
+```bash
+docker compose --profile dev up
+```
+
+**Run Production Container**
+
+```bash
+docker compose up
+```
+
+#### Docker Configuration Details
+
+**Development Container:**
+
+- Volume mounting for live code changes
+- Full Node.js environment
+- Development dependencies included
+- Hot module replacement enabled
+
+**Production Container:**
+
+- Standalone Next.js application
+- Minimal runtime dependencies
+- Non-root user execution
+- Optimized for deployment
 
 ## 📱 Usage
 
@@ -172,7 +238,9 @@ docker-compose up --build
 │   └── useVoices.ts         # Voice fetching and management
 ├── constants/               # Application constants and data
 ├── utils/                   # Utility functions
-└── types/                   # TypeScript type definitions
+├── types/                   # TypeScript type definitions
+├── Dockerfile               # Multi-stage Docker configuration
+└── docker-compose.yml       # Docker Compose services
 ```
 
 ## 🎨 Design Decisions
@@ -237,6 +305,7 @@ Processes song generation requests with comprehensive logging.
 - ✅ Responsive design across devices
 - ✅ Error handling and edge cases
 - ✅ API integration and data flow
+- ✅ Docker development and production builds
 
 ### Code Quality Standards
 
@@ -253,6 +322,7 @@ Processes song generation requests with comprehensive logging.
 - **Voice Loading**: Efficient pagination with skeleton states
 - **Form Transitions**: 500ms smooth animations
 - **Bundle Size**: Optimized with tree shaking and dynamic imports
+- **Docker Build Time**: Multi-stage caching for faster builds
 
 ## 🔍 Browser Compatibility
 
@@ -264,12 +334,28 @@ Processes song generation requests with comprehensive logging.
 ## 📝 Development Scripts
 
 ```bash
+# Local Development
 yarn dev          # Start development server
 yarn build        # Build for production
 yarn start        # Start production server
 yarn lint         # Run ESLint
 yarn type-check   # TypeScript type checking
+
+# Docker Development
+docker compose --profile dev up --build    # Development with hot reload
+docker compose up --build                  # Production build
+docker compose build musicgpt-dev          # Build dev image only
+docker compose build musicgpt-app          # Build production image only
 ```
+
+## 🚢 Deployment
+
+The application is ready for deployment with:
+
+- **Docker support** for containerized deployment
+- **Standalone Next.js build** for optimized production
+- **Environment variable configuration**
+- **Production-ready Dockerfile** with security best practices
 
 ---
 
