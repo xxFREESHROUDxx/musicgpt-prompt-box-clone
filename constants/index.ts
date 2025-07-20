@@ -62,7 +62,7 @@ export interface Tool {
 
 export const FORM_PLACEHOLDERS = {
   SONG_DESCRIPTION: "Describe your song",
-  LYRICS: "Enter your lyrics here",
+  LYRICS: "Enter your lyrics here(optional)",
   TEXT_TO_SPEECH: "Enter text..",
   VOICE_SEARCH: "Search voices",
 } as const;

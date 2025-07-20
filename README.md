@@ -273,4 +273,4 @@ yarn type-check   # TypeScript type checking
 
 ---
 
-**Developed by Baibhav KC** | Modern React Application for AI Song Creation
+**Developed by Baibhav KC**
